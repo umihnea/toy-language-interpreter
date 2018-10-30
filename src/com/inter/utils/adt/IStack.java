@@ -1,6 +1,6 @@
 package com.inter.utils.adt;
 
-public interface IMyStack<T> {
+public interface IStack<T> {
     T pop();
 
     T top();
