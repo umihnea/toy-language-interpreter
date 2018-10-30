@@ -14,13 +14,13 @@ public class Stack<T> implements IStack<T> {
 
     @Override
     public T pop() throws CollectionException {
-        if (isEmpty()) throw new CollectionException("Stack.pop(): Stack is empty.");
+        if (isEmpty()) throw new CollectionException("ADTs->Stack->pop(): Stack is empty.");
         return list.removeFirst();
     }
 
     @Override
     public T top() {
-        if (isEmpty()) throw new CollectionException("Stack.top(): Stack is empty.");
+        if (isEmpty()) throw new CollectionException("ADTs->Stack->top(): Stack is empty.");
         return list.peekFirst();
     }
 
