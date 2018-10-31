@@ -32,8 +32,8 @@ public class Dictionary<K, V> implements IDictionary<K, V> {
         for (Map.Entry<K, V> entry : map.entrySet()) {
             K key = entry.getKey();
             V value = entry.getValue();
-            line.append(key).append(" => ").append(value).append(",\n");
+            line.append("\t\t").append(key).append(" => ").append(value).append(",\n");
         }
-        return "Dict@" + hashCode + ": {" + line.toString() + "};\n";
+        return "Dict@" + hashCode + " = {\n" + line.toString() + "\t}\n";
     }
 }

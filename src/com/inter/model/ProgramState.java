@@ -47,7 +47,7 @@ public class ProgramState {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         String hashCode = Integer.toString(System.identityHashCode(this));
-        sb.append(stack).append(symbolTable).append(out);
-        return "ProgramState@" + hashCode + "\n{\n" + sb.toString() + "\n}\n";
+        sb.append("\t").append(stack).append("\t").append(symbolTable).append("\t").append(out);
+        return "ProgramState@" + hashCode + " = {\n" + sb.toString() + "}\n";
     }
 }

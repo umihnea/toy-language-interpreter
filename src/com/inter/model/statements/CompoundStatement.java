@@ -22,6 +22,6 @@ public class CompoundStatement extends Statement {
 
     @Override
     public String toString() {
-        return "(" + first.toString() + ";\n" + second.toString() + ")";
+        return "(" + first.toString() + "; " + second.toString() + ")";
     }
 }

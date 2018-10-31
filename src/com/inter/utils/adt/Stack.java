@@ -39,7 +39,7 @@ public class Stack<T> implements IStack<T> {
         String hashCode = Integer.toString(System.identityHashCode(this));
         StringBuilder line = new StringBuilder();
         for (T e : list)
-            line.append(e.toString()).append(",\n");
-        return "Stack@" + hashCode + ": [ " + line.toString() + "];\n";
+            line.append("\t\t").append(e.toString()).append(",\n");
+        return "Stack@" + hashCode + " = {\n" + line.toString() + "\t}\n";
     }
 }

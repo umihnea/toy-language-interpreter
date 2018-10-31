@@ -31,6 +31,6 @@ public class IfStatement extends Statement {
 
     @Override
     public String toString() {
-        return "IF (" + e.toString() + ") THEN\n(" + thenBranch.toString() + ")\nELSE\n(" + elseBranch.toString() + ")";
+        return "IF (" + e.toString() + ") THEN (" + thenBranch.toString() + ") ELSE (" + elseBranch.toString() + ")";
     }
 }
