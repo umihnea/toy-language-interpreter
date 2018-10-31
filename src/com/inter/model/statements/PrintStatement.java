@@ -1,5 +1,6 @@
 package com.inter.model.statements;
 
+import com.inter.exceptions.InterpreterException;
 import com.inter.model.ProgramState;
 import com.inter.model.expressions.Expression;
 import com.inter.utils.adt.IList;
@@ -13,9 +14,12 @@ public class PrintStatement extends Statement {
     }
 
     @Override
-    public ProgramState execute(ProgramState state) {
+    public ProgramState execute(ProgramState state) throws InterpreterException {
         IList<String> out = state.getBuffer();
-        out.append(e.toString());
+
+        int value = e.evaluate(state.getSymbolTable());
+        out.append(Integer.toString(value));
+
         return state;
     }
 }

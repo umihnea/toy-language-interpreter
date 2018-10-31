@@ -11,10 +11,11 @@ public class VariableExpression extends Expression {
     }
 
     @Override
-    int evaluate(IDictionary<String, Integer> table) throws EvaluationException {
+    public int evaluate(IDictionary<String, Integer> table) throws EvaluationException {
         Integer value = table.get(this.key);
         if (value == null)
             throw new EvaluationException(String.format("Unknown variable '%s'.", this.key));
         return value;
     }
+
 }
