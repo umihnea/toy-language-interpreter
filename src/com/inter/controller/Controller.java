@@ -4,6 +4,7 @@ import com.inter.exceptions.InterpreterException;
 import com.inter.model.ProgramState;
 import com.inter.model.statements.Statement;
 import com.inter.repository.IRepository;
+import com.inter.utils.adt.IStack;
 
 
 public class Controller {
@@ -20,12 +21,12 @@ public class Controller {
         this.program = s;
     }
 
-    public void stepOnce() throws InterpreterException {
-        if (this.program == null) throw new InterpreterException("No program loaded.");
+    public ProgramState stepOnce(ProgramState state) throws InterpreterException {
+        IStack<Statement> stack = state.getStack();
+        if (stack.isEmpty()) throw new InterpreterException("Stack is empty.");
 
-        ProgramState p = repository.getCurrentState();
-        // ...
-        repository.setCurrentState(p);
+        Statement currentStatement = stack.pop();
+        return currentStatement.execute(state);
     }
 
     public void runToCompletion() throws InterpreterException {
