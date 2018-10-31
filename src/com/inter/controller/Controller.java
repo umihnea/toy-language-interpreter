@@ -32,9 +32,11 @@ public class Controller {
     public void runToCompletion() throws InterpreterException {
         if (this.program == null) throw new InterpreterException("No program loaded.");
 
-        ProgramState p = repository.getCurrentState();
-        // ...
-        repository.setCurrentState(p);
+        ProgramState state = repository.getCurrentState();
+        while (!state.getStack().isEmpty()) {
+            state = this.stepOnce(state);
+        }
+        repository.setCurrentState(state);
         this.setProgram(null);
     }
 
