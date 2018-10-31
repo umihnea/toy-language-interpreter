@@ -21,10 +21,10 @@ public class Interpreter {
         /* Loads a predefined statement into controller.
          * If already loaded, will overwrite. */
 
-        ui.addCommand(new StepOnceCommand("2", "Step Once", controller));
+        ui.addCommand(new StepOnceCommand("2", "Step Once", controller, true));
         /* Controller fetches the current program state.
          * The program state is advanced by one step.
-         * A step trace is printed to screen. (Optional: have it ask the user Y/N for trace.)
+         * A step trace is printed to screen (if displayFlag is set).
          * Program state is put back. */
 
         ui.addCommand(new RunProgramCommand("3", "Run to Completion", controller));

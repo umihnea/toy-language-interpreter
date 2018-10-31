@@ -33,6 +33,10 @@ public class Controller {
         this.repository.setCurrentState(initial);
     }
 
+    public boolean hasProgram() {
+        return (this.program != null);
+    }
+
     public ProgramState getCurrentProgramState() {
         return this.repository.getCurrentState();
     }
@@ -43,21 +47,17 @@ public class Controller {
 
     public ProgramState stepOnce(ProgramState state) throws InterpreterException {
         IStack<Statement> stack = state.getStack();
-        if (stack.isEmpty()) throw new InterpreterException("Stack is empty.");
+        if (stack.isEmpty())
+            throw new InterpreterException("Stack is empty.");
 
         Statement currentStatement = stack.pop();
         return currentStatement.execute(state);
     }
 
-    public void runToCompletion() throws InterpreterException {
-        if (this.program == null) throw new InterpreterException("No program loaded.");
-
-        ProgramState state = repository.getCurrentState();
-        while (!state.getStack().isEmpty()) {
+    public ProgramState runToCompletion(ProgramState state) throws InterpreterException {
+        while (!state.getStack().isEmpty())
             state = this.stepOnce(state);
-        }
-        repository.setCurrentState(state);
-        this.setProgram(null);
+        return state;
     }
 
 }

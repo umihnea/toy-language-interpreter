@@ -2,6 +2,7 @@ package com.inter.view.commands;
 
 import com.inter.controller.Controller;
 import com.inter.exceptions.InterpreterException;
+import com.inter.model.ProgramState;
 
 public class RunProgramCommand extends Command {
 
@@ -14,7 +15,19 @@ public class RunProgramCommand extends Command {
 
     @Override
     public void execute() throws InterpreterException {
-        controller.runToCompletion();
-        System.out.println("Finished program.");
+        ProgramState state = this.controller.getCurrentProgramState();
+
+        if (!controller.hasProgram())
+            throw new InterpreterException("No program loaded.");
+        else if (state.getStack().isEmpty())
+            throw new InterpreterException("Program already done.");
+
+        state = controller.runToCompletion(state);
+
+        controller.setCurrentProgramState(state);
+        controller.setProgram(null);
+
+        System.out.println("Program finished. Output:");
+        System.out.println(state.getBuffer());
     }
 }
