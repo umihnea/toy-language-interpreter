@@ -16,13 +16,15 @@ public class StepOnceCommand extends Command {
     @Override
     public void execute() throws InterpreterException {
         ProgramState state = this.controller.getCurrentProgramState();
-
         if (state == null)
-            throw new InterpreterException("No program has been loaded.");
+            throw new InterpreterException("No program loaded.");
 
         state = controller.stepOnce(state);
         this.controller.setCurrentProgramState(state);
         System.out.println("Stepped once.");
         System.out.println(state);
+
+        if (state.getStack().isEmpty())
+            System.out.println("Program finished.");
     }
 }

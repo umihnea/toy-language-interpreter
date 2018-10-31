@@ -52,7 +52,7 @@ public class LoadExampleCommand extends Command {
                                                         new ConstantExpression(2)
                                                 )
                                         ),
-                                        new ConstantExpression(2)
+                                        new ConstantExpression(7)
                                 )
                         ),
                         new PrintStatement(
