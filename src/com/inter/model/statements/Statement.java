@@ -1,5 +1,5 @@
 package com.inter.model.statements;
 
-public class Statement {
+abstract public class Statement {
 
 }

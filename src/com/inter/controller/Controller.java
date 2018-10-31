@@ -24,8 +24,6 @@ public class Controller {
         if (this.program == null) throw new InterpreterException("No program loaded.");
 
         ProgramState p = repository.getCurrentState();
-        p.flag++;
-        System.out.println("ctrl: program state flag after one step: " + p.flag);
         // ...
         repository.setCurrentState(p);
     }
@@ -34,8 +32,6 @@ public class Controller {
         if (this.program == null) throw new InterpreterException("No program loaded.");
 
         ProgramState p = repository.getCurrentState();
-        p.flag = 1000;
-        System.out.println("ctrl: program state flag after running: " + p.flag);
         // ...
         repository.setCurrentState(p);
         this.setProgram(null);

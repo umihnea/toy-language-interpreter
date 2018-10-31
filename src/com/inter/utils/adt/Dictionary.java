@@ -34,6 +34,6 @@ public class Dictionary<K, V> implements IDictionary<K, V> {
             V value = entry.getValue();
             line.append(key).append(" => ").append(value).append(",\n");
         }
-        return "Dict#" + hashCode + ": {" + line.toString() + "};";
+        return "Dict@" + hashCode + ": {" + line.toString() + "};\n";
     }
 }

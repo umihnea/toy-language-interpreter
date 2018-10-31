@@ -5,7 +5,7 @@ import com.inter.exceptions.CollectionException;
 import java.util.LinkedList;
 
 public class List<T> implements IList<T> {
-    java.util.List<T> collection;
+    private java.util.List<T> collection;
 
     public List() {
         this.collection = new LinkedList<>();
@@ -36,5 +36,14 @@ public class List<T> implements IList<T> {
     @Override
     public int size() {
         return collection.size();
+    }
+
+    @Override
+    public String toString() {
+        String hashCode = Integer.toString(System.identityHashCode(this));
+        StringBuilder line = new StringBuilder();
+        for (T e : collection)
+            line.append(e).append(",\n");
+        return "List@" + hashCode + ": [ " + line.toString() + "]\n";
     }
 }

@@ -40,6 +40,6 @@ public class Stack<T> implements IStack<T> {
         StringBuilder line = new StringBuilder();
         for (T e : list)
             line.append(e.toString()).append(",\n");
-        return "Stack#" + hashCode + ": [ " + line.toString() + "];";
+        return "Stack@" + hashCode + ": [ " + line.toString() + "];\n";
     }
 }
