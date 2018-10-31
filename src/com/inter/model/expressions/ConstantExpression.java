@@ -14,4 +14,9 @@ public class ConstantExpression extends Expression {
     public int evaluate(IDictionary<String, Integer> table) throws EvaluationException {
         return k;
     }
+
+    @Override
+    public String toString() {
+        return Integer.toString(k);
+    }
 }

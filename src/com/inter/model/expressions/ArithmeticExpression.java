@@ -37,4 +37,9 @@ public class ArithmeticExpression extends Expression {
                 throw new EvaluationException(String.format("Symbol %c not recognized.", operand));
         }
     }
+
+    @Override
+    public String toString() {
+        return "(" + a.toString() + this.operand + b.toString() + ")";
+    }
 }

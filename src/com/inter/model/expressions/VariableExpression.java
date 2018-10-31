@@ -18,4 +18,8 @@ public class VariableExpression extends Expression {
         return value;
     }
 
+    @Override
+    public String toString() {
+        return key;
+    }
 }
