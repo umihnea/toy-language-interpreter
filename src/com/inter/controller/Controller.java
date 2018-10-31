@@ -4,7 +4,10 @@ import com.inter.exceptions.InterpreterException;
 import com.inter.model.ProgramState;
 import com.inter.model.statements.Statement;
 import com.inter.repository.IRepository;
+import com.inter.utils.adt.Dictionary;
 import com.inter.utils.adt.IStack;
+import com.inter.utils.adt.List;
+import com.inter.utils.adt.Stack;
 
 
 public class Controller {
@@ -19,6 +22,15 @@ public class Controller {
 
     public void setProgram(Statement s) {
         this.program = s;
+
+        Stack<Statement> stack = new Stack<>();
+        Dictionary<String, Integer> symbolTable = new Dictionary<>();
+        List<String> output = new List<>();
+
+        stack.push(s);
+
+        ProgramState initial = new ProgramState(stack, symbolTable, output);
+        this.repository.setCurrentState(initial);
     }
 
     public ProgramState getCurrentProgramState() {

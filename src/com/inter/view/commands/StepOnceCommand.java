@@ -16,8 +16,13 @@ public class StepOnceCommand extends Command {
     @Override
     public void execute() throws InterpreterException {
         ProgramState state = this.controller.getCurrentProgramState();
-        ProgramState newState = controller.stepOnce(state);
-        this.controller.setCurrentProgramState(newState);
+
+        if (state == null)
+            throw new InterpreterException("No program has been loaded.");
+
+        state = controller.stepOnce(state);
+        this.controller.setCurrentProgramState(state);
         System.out.println("Stepped once.");
+        System.out.println(state);
     }
 }
