@@ -28,4 +28,9 @@ public class IfStatement extends Statement {
 
         return state;
     }
+
+    @Override
+    public String toString() {
+        return "IF (" + e.toString() + ") THEN\n(" + thenBranch.toString() + ")\nELSE\n(" + elseBranch.toString() + ")";
+    }
 }

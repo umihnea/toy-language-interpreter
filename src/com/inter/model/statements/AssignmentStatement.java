@@ -20,4 +20,9 @@ public class AssignmentStatement extends Statement {
         symbolTable.put(key, e.evaluate(state.getSymbolTable()));
         return state;
     }
+
+    @Override
+    public String toString() {
+        return key + "=" + e.toString();
+    }
 }

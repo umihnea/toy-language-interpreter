@@ -22,4 +22,9 @@ public class PrintStatement extends Statement {
 
         return state;
     }
+
+    @Override
+    public String toString() {
+        return "print(" + e.toString() + ")";
+    }
 }
