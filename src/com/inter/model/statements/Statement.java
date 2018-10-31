@@ -1,5 +1,7 @@
 package com.inter.model.statements;
 
-abstract public class Statement {
+import com.inter.model.ProgramState;
 
+abstract public class Statement {
+    public abstract ProgramState execute(ProgramState state);
 }

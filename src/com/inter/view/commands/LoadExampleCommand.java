@@ -23,7 +23,7 @@ public class LoadExampleCommand extends Command {
         /*
         TODO: this returns an actual program (nested Statement)
          */
-        return new Statement();
+        return null;
     }
 
 }

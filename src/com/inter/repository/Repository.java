@@ -3,7 +3,7 @@ package com.inter.repository;
 import com.inter.model.ProgramState;
 
 /*
-Single-state repository.
+ * Single-state repository.
  */
 
 public class Repository implements IRepository {
@@ -11,7 +11,7 @@ public class Repository implements IRepository {
     private ProgramState programState;
 
     public Repository() {
-        this.programState = new ProgramState();
+        this.programState = null;
     }
 
     @Override
