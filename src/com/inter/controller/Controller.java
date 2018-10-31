@@ -21,6 +21,14 @@ public class Controller {
         this.program = s;
     }
 
+    public ProgramState getCurrentProgramState() {
+        return this.repository.getCurrentState();
+    }
+
+    public void setCurrentProgramState(ProgramState newState) {
+        this.repository.setCurrentState(newState);
+    }
+
     public ProgramState stepOnce(ProgramState state) throws InterpreterException {
         IStack<Statement> stack = state.getStack();
         if (stack.isEmpty()) throw new InterpreterException("Stack is empty.");

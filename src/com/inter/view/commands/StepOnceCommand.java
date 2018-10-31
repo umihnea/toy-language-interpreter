@@ -2,6 +2,7 @@ package com.inter.view.commands;
 
 import com.inter.controller.Controller;
 import com.inter.exceptions.InterpreterException;
+import com.inter.model.ProgramState;
 
 public class StepOnceCommand extends Command {
 
@@ -14,7 +15,9 @@ public class StepOnceCommand extends Command {
 
     @Override
     public void execute() throws InterpreterException {
-        controller.stepOnce();
+        ProgramState state = this.controller.getCurrentProgramState();
+        ProgramState newState = controller.stepOnce(state);
+        this.controller.setCurrentProgramState(newState);
         System.out.println("Stepped once.");
     }
 }
