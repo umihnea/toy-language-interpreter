@@ -1,5 +1,7 @@
 package com.inter.utils.adt;
 
+import com.inter.exceptions.CollectionException;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,24 +18,40 @@ public class Dictionary<K, V> implements IDictionary<K, V> {
     }
 
     @Override
-    public V get(K key) {
-        return map.get(key);
+    public V get(K key) throws CollectionException {
+        V value = map.get(key);
+        if (value == null)
+            throw new CollectionException(String.format("Trying to get undefined key \"%s\".", key));
+        return value;
     }
 
     @Override
-    public V remove(K key) {
-        return map.remove(key);
+    public V remove(K key) throws CollectionException {
+        V removed = map.remove(key);
+        if (removed == null)
+            throw new CollectionException(String.format("Trying to remove undefined key \"%s\".", key));
+        return removed;
+    }
+
+    @Override
+    public int size() {
+        return map.size();
     }
 
     @Override
     public String toString() {
-        String hashCode = Integer.toString(System.identityHashCode(this));
+        int index = 0;
         StringBuilder line = new StringBuilder();
+
         for (Map.Entry<K, V> entry : map.entrySet()) {
             K key = entry.getKey();
             V value = entry.getValue();
-            line.append("\t\t").append(key).append(" => ").append(value).append(",\n");
+
+            line.append(String.format("(%s: %s)", key, value));
+
+            if (index + 1 < map.size()) line.append(", ");
+            index++;
         }
-        return "Dict@" + hashCode + " = {\n" + line.toString() + "\t}\n";
+        return "{" + line.toString() + "}";
     }
 }
