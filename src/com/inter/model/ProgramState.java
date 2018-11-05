@@ -12,14 +12,12 @@ public class ProgramState {
 
     private IDictionary<Integer, FileData> fileTable;
 
-    // private Statement initialProgram;
-
-    public ProgramState(IStack<Statement> stack, IDictionary<String, Integer> symbolTable, IList<String> out) {
+    public ProgramState(IStack<Statement> stack, IDictionary<String, Integer> symbolTable, IList<String> out,
+                        IDictionary<Integer, FileData> fileTable) {
         this.stack = stack;
         this.symbolTable = symbolTable;
         this.out = out;
-        // this.initialProgram = deepCopy(initialProgram);
-        // TODO: understand and implement deep copy above ^^
+        this.fileTable = fileTable;
     }
 
     public IStack<Statement> getStack() {
@@ -34,19 +32,24 @@ public class ProgramState {
         return out;
     }
 
-    public void setStack(IStack<Statement> stack) {
-        this.stack = stack;
+    public IDictionary<Integer, FileData> getFileTable() {
+        return fileTable;
     }
 
-    public void setSymbolTable(IDictionary<String, Integer> symbolTable) {
-        this.symbolTable = symbolTable;
-    }
-
-    public void setOut(IList<String> out) {
-        this.out = out;
-    }
+//    public void setStack(IStack<Statement> stack) {
+//        this.stack = stack;
+//    }
+//
+//    public void setSymbolTable(IDictionary<String, Integer> symbolTable) {
+//        this.symbolTable = symbolTable;
+//    }
+//
+//    public void setOut(IList<String> out) {
+//        this.out = out;
+//    }
 
     @Override
+
     public String toString() {
         StringBuilder sb = new StringBuilder();
         String hashCode = Integer.toString(System.identityHashCode(this));

@@ -1,6 +1,7 @@
 package com.inter.controller;
 
 import com.inter.exceptions.InterpreterException;
+import com.inter.model.FileData;
 import com.inter.model.ProgramState;
 import com.inter.model.statements.Statement;
 import com.inter.repository.IRepository;
@@ -25,11 +26,12 @@ public class Controller {
 
         Stack<Statement> stack = new Stack<>();
         Dictionary<String, Integer> symbolTable = new Dictionary<>();
+        Dictionary<Integer, FileData> fileTable = new Dictionary<>();
         List<String> output = new List<>();
 
         stack.push(s);
 
-        ProgramState initial = new ProgramState(stack, symbolTable, output);
+        ProgramState initial = new ProgramState(stack, symbolTable, output, fileTable);
         this.repository.setCurrentState(initial);
     }
 
