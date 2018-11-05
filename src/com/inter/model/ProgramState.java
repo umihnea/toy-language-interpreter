@@ -1,5 +1,6 @@
 package com.inter.model;
 
+import com.inter.model.files.FileData;
 import com.inter.model.statements.Statement;
 import com.inter.utils.adt.IDictionary;
 import com.inter.utils.adt.IList;
@@ -10,10 +11,10 @@ public class ProgramState {
     private IDictionary<String, Integer> symbolTable;
     private IList<String> out;
 
-    private IDictionary<Integer, FileData> fileTable;
+    private IDictionary<String, FileData> fileTable;
 
     public ProgramState(IStack<Statement> stack, IDictionary<String, Integer> symbolTable, IList<String> out,
-                        IDictionary<Integer, FileData> fileTable) {
+                        IDictionary<String, FileData> fileTable) {
         this.stack = stack;
         this.symbolTable = symbolTable;
         this.out = out;
@@ -32,7 +33,7 @@ public class ProgramState {
         return out;
     }
 
-    public IDictionary<Integer, FileData> getFileTable() {
+    public IDictionary<String, FileData> getFileTable() {
         return fileTable;
     }
 
@@ -49,7 +50,6 @@ public class ProgramState {
 //    }
 
     @Override
-
     public String toString() {
         StringBuilder sb = new StringBuilder();
         String hashCode = Integer.toString(System.identityHashCode(this));
