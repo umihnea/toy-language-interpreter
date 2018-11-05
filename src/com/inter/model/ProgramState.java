@@ -9,6 +9,9 @@ public class ProgramState {
     private IStack<Statement> stack;
     private IDictionary<String, Integer> symbolTable;
     private IList<String> out;
+
+    private IDictionary<Integer, FileData> fileTable;
+
     // private Statement initialProgram;
 
     public ProgramState(IStack<Statement> stack, IDictionary<String, Integer> symbolTable, IList<String> out) {
