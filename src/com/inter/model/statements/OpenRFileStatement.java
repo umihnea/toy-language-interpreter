@@ -20,12 +20,18 @@ public class OpenRFileStatement extends Statement {
 
     @Override
     public ProgramState execute(ProgramState state) throws InterpreterException {
-        IDictionary<String, FileData> fileTable = state.getFileTable();
+        IDictionary<Integer, FileData> fileTable = state.getFileTable();
+        int tableKey = fileTable.size() + 1;
+
+        for (FileData entry : fileTable.values()) {         // Filenames in the FileTable must be distinct
+            if (entry.getFilename().equals(this.filename))
+                throw new InterpreterException(String.format("openRFile: File \"%s\" already opened.", filename));
+        }
 
         try {
             BufferedReader br = new BufferedReader(new FileReader(filename));
-            FileData fileData = new FileData(br);
-            fileTable.put(key, fileData);
+            FileData fileData = new FileData(filename, br);
+            fileTable.put(tableKey, fileData);
         } catch (FileNotFoundException e) {
             throw new InterpreterException(String.format("openRFile: File \"%s\" not found.", filename));
         }

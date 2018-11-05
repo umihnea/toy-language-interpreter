@@ -2,6 +2,7 @@ package com.inter.utils.adt;
 
 import com.inter.exceptions.CollectionException;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,6 +37,11 @@ public class Dictionary<K, V> implements IDictionary<K, V> {
     @Override
     public int size() {
         return map.size();
+    }
+
+    @Override
+    public Collection<V> values() {
+        return map.values();
     }
 
     @Override

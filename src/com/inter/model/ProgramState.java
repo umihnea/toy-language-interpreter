@@ -11,10 +11,10 @@ public class ProgramState {
     private IDictionary<String, Integer> symbolTable;
     private IList<String> out;
 
-    private IDictionary<String, FileData> fileTable;
+    private IDictionary<Integer, FileData> fileTable;
 
     public ProgramState(IStack<Statement> stack, IDictionary<String, Integer> symbolTable, IList<String> out,
-                        IDictionary<String, FileData> fileTable) {
+                        IDictionary<Integer, FileData> fileTable) {
         this.stack = stack;
         this.symbolTable = symbolTable;
         this.out = out;
@@ -33,7 +33,7 @@ public class ProgramState {
         return out;
     }
 
-    public IDictionary<String, FileData> getFileTable() {
+    public IDictionary<Integer, FileData> getFileTable() {
         return fileTable;
     }
 
