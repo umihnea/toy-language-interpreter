@@ -41,9 +41,10 @@ public class ProgramState {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         String hashCode = Integer.toString(System.identityHashCode(this));
-        sb.append(String.format("\tstk: %s\n", stack)).
-                append(String.format("\tsym-t: %s\n", symbolTable)).
-                append(String.format("\tout: %s\n", out));
+        sb.append(String.format("\tstk: %s\n", stack))
+                .append(String.format("\tsym-t: %s\n", symbolTable))
+                .append(String.format("\tfile-t: %s\n", fileTable))
+                .append(String.format("\tout: %s\n", out));
 
         return String.format("PS@%s:\n{\n%s}\n", hashCode, sb.toString());
     }
