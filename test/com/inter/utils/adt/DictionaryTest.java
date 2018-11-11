@@ -4,6 +4,11 @@ import com.inter.exceptions.CollectionException;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
+import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertNotNull;
+
 public class DictionaryTest {
 
     @Test
@@ -45,6 +50,22 @@ public class DictionaryTest {
         Assert.assertEquals("B2", d.get(1));
         Assert.assertEquals(1, d.size());
         d.remove(0);
+    }
+
+    @Test
+    public void testValues() {
+        IDictionary<Integer, String> d = new Dictionary<>();
+        d.put(0, "A");
+        d.put(1, "B");
+        d.put(2, "C");
+
+        ArrayList<String> valueList = new ArrayList<>();
+        valueList.add("A");
+        valueList.add("B");
+        valueList.add("C");
+
+        assertNotNull(d.values());
+        assertEquals(valueList, new ArrayList<>(d.values()));
     }
 
     @Test
