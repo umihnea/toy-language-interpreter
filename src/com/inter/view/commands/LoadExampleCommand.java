@@ -108,6 +108,11 @@ public class LoadExampleCommand extends Command {
                         )
                 );
             }
+            case 3:
+                return new CompoundStatement(
+                        new OpenRFileStatement("in_fd", "in.txt"),
+                        new OpenRFileStatement("broken_fd", "i_dont_exist.txt")
+                );
             default:
                 return null;
         }

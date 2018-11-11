@@ -8,6 +8,7 @@ public class FileData {
     private BufferedReader bufferedReader;
 
     public FileData(int fileId, String filename, BufferedReader bufferedReader) {
+        this.fileId = fileId;
         this.filename = filename;
         this.bufferedReader = bufferedReader;
     }
