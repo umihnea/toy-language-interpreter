@@ -26,6 +26,10 @@ public class FileData {
         return this.scanner.hasNextInt();
     }
 
+    public void close() {
+        this.scanner.close();
+    }
+
     @Override
     public String toString() {
         return String.format("(%d, %s)", fileId, filename);

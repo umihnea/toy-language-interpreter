@@ -40,7 +40,7 @@ public class ReadFileStatement extends Statement {
 
     @Override
     public String toString() {
-        return String.format("readFile(\"%s\", %s)", this.fileId, this.readIntoKey);
+        return String.format("readFile(file:%s, %s)", this.fileId, this.readIntoKey);
     }
 
 }
