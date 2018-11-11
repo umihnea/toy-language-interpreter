@@ -1,24 +1,29 @@
 package com.inter.model.files;
 
 import java.io.BufferedReader;
+import java.util.Scanner;
 
 public class FileData {
     private int fileId;
     private String filename;
-    private BufferedReader bufferedReader;
+    private Scanner scanner;
 
     public FileData(int fileId, String filename, BufferedReader bufferedReader) {
         this.fileId = fileId;
         this.filename = filename;
-        this.bufferedReader = bufferedReader;
+        this.scanner = new Scanner(bufferedReader);
     }
 
     public String getFilename() {
         return filename;
     }
 
-    public BufferedReader getReader() {
-        return bufferedReader;
+    public int nextInt() {
+        return this.scanner.nextInt();
+    }
+
+    public boolean hasNextInt() {
+        return this.scanner.hasNextInt();
     }
 
     @Override

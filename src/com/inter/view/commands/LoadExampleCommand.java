@@ -109,9 +109,23 @@ public class LoadExampleCommand extends Command {
                 );
             }
             case 3:
+                /* OPENRFILE(in_fd, "in.txt")
+                 * READ(in_fd, a)
+                 * PRINT(a)
+                 * READ(in_fd, a)
+                 * PRINT(a) */
                 return new CompoundStatement(
                         new OpenRFileStatement("in_fd", "in.txt"),
-                        new OpenRFileStatement("broken_fd", "i_dont_exist.txt")
+                        new CompoundStatement(
+                                new ReadFileStatement(new VariableExpression("in_fd"), "a"),
+                                new CompoundStatement(
+                                        new PrintStatement(new VariableExpression("a")),
+                                        new CompoundStatement(
+                                                new ReadFileStatement(new VariableExpression("in_fd"), "a"),
+                                                new PrintStatement(new VariableExpression("a"))
+                                        )
+                                )
+                        )
                 );
             default:
                 return null;
