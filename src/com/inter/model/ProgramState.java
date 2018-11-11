@@ -37,18 +37,6 @@ public class ProgramState {
         return fileTable;
     }
 
-//    public void setStack(IStack<Statement> stack) {
-//        this.stack = stack;
-//    }
-//
-//    public void setSymbolTable(IDictionary<String, Integer> symbolTable) {
-//        this.symbolTable = symbolTable;
-//    }
-//
-//    public void setOut(IList<String> out) {
-//        this.out = out;
-//    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

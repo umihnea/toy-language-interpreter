@@ -30,7 +30,7 @@ public class OpenRFileStatement extends Statement {
 
         try {
             BufferedReader br = new BufferedReader(new FileReader(filename));
-            FileData fileData = new FileData(filename, br);
+            FileData fileData = new FileData(tableKey, filename, br);
             fileTable.put(tableKey, fileData);
         } catch (FileNotFoundException e) {
             throw new InterpreterException(String.format("openRFile: File \"%s\" not found.", filename));
