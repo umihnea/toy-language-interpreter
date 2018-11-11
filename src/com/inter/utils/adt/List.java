@@ -40,10 +40,15 @@ public class List<T> implements IList<T> {
 
     @Override
     public String toString() {
-        String hashCode = Integer.toString(System.identityHashCode(this));
+        int index = 0;
         StringBuilder line = new StringBuilder();
-        for (T e : collection)
-            line.append("\t\t").append(e).append(",\n");
-        return "List@" + hashCode + " = {\n" + line.toString() + "\t}\n";
+        for (T e : collection) {
+            if (index + 1 < collection.size())
+                line.append(String.format("%s, ", e.toString()));
+            else
+                line.append(e.toString());
+            index++;
+        }
+        return String.format("[%s]", line.toString());
     }
 }

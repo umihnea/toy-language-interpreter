@@ -48,7 +48,6 @@ public class Dictionary<K, V> implements IDictionary<K, V> {
     public String toString() {
         int index = 0;
         StringBuilder line = new StringBuilder();
-
         for (Map.Entry<K, V> entry : map.entrySet()) {
             K key = entry.getKey();
             V value = entry.getValue();

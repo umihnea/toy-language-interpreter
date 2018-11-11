@@ -36,10 +36,15 @@ public class Stack<T> implements IStack<T> {
 
     @Override
     public String toString() {
-        String hashCode = Integer.toString(System.identityHashCode(this));
+        int index = 0;
         StringBuilder line = new StringBuilder();
-        for (T e : list)
-            line.append("\t\t").append(e.toString()).append(",\n");
-        return "Stack@" + hashCode + " = {\n" + line.toString() + "\t}\n";
+        for (T e : list) {
+            if (index + 1 < list.size())
+                line.append(String.format("%s, ", e.toString()));
+            else
+                line.append(e.toString());
+            index++;
+        }
+        return String.format("[%s]", line);
     }
 }
