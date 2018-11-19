@@ -53,6 +53,7 @@ public class Controller {
             throw new InterpreterException("Stack is empty.");
 
         Statement currentStatement = stack.pop();
+        this.repository.log(state);
         return currentStatement.execute(state);
     }
 

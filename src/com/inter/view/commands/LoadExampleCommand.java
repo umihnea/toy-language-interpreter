@@ -122,7 +122,10 @@ public class LoadExampleCommand extends Command {
                                         new PrintStatement(new VariableExpression("a")),
                                         new CompoundStatement(
                                                 new ReadFileStatement(new VariableExpression("in_fd"), "a"),
-                                                new PrintStatement(new VariableExpression("a"))
+                                                new CompoundStatement(
+                                                        new PrintStatement(new VariableExpression("a")),
+                                                        new CloseFileStatement(new VariableExpression("in_fd"))
+                                                )
                                         )
                                 )
                         )

@@ -6,4 +6,6 @@ public interface IRepository {
     ProgramState getCurrentState();
 
     void setCurrentState(ProgramState p);
+
+    void log(ProgramState p);
 }
