@@ -15,10 +15,10 @@ public class StepOnceCommand extends Command {
         this.displayFlag = displayFlag;
     }
 
-    public StepOnceCommand(String key, String description, Controller controller) {
-        super(key, description);
-        this.controller = controller;
-    }
+//    public StepOnceCommand(String key, String description, Controller controller) {
+//        super(key, description);
+//        this.controller = controller;
+//    }
 
     @Override
     public void execute() throws InterpreterException {

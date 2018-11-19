@@ -1,5 +1,6 @@
 package com.inter.repository;
 
+import com.inter.exceptions.RepositoryException;
 import com.inter.model.ProgramState;
 
 import java.io.FileWriter;
