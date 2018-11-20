@@ -17,7 +17,7 @@ public class PrintStatement extends Statement {
     public ProgramState execute(ProgramState state) throws InterpreterException {
         IList<String> out = state.getBuffer();
 
-        int value = e.evaluate(state.getSymbolTable());
+        int value = e.evaluate(state.getSymbolTable(), state.getHeap());
         out.append(Integer.toString(value));
 
         return state;

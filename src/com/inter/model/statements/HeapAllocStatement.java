@@ -19,7 +19,7 @@ public class HeapAllocStatement extends Statement {
     public ProgramState execute(ProgramState state) throws InterpreterException {
         IDictionary<Integer, Integer> heap = state.getHeap();
         int address = heap.size() + 1;
-        heap.put(address, this.expression.evaluate(state.getSymbolTable()));
+        heap.put(address, this.expression.evaluate(state.getSymbolTable(), state.getHeap()));
 
         return new AssignmentStatement(this.key, new ConstantExpression(address)).execute(state);
     }

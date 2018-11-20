@@ -22,7 +22,7 @@ public class IfStatement extends Statement {
         IDictionary<String, Integer> symbolTable = state.getSymbolTable();
         IStack<Statement> stack = state.getStack();
 
-        int value = e.evaluate(symbolTable);
+        int value = e.evaluate(symbolTable, state.getHeap());
         if (value != 0) stack.push(thenBranch);
         else stack.push(elseBranch);
 

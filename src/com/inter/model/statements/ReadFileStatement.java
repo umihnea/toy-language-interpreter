@@ -22,7 +22,7 @@ public class ReadFileStatement extends Statement {
         IDictionary<Integer, FileData> fileTable = state.getFileTable();
 
         // Resolve file
-        int fileKey = fileId.evaluate(symbolTable); // throws on non-existent variable
+        int fileKey = fileId.evaluate(symbolTable, state.getHeap()); // throws on non-existent variable
         FileData fileData = fileTable.get(fileKey);
         if (fileData == null)   // handle non-existent file
             throw new InterpreterException(String.format("readFile: non-existent file (fd = %d)", fileKey));

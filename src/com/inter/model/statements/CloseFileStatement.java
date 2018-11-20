@@ -19,7 +19,7 @@ public class CloseFileStatement extends Statement {
         IDictionary<String, Integer> symbolTable = state.getSymbolTable();
         IDictionary<Integer, FileData> fileTable = state.getFileTable();
 
-        int fileKey = fileId.evaluate(symbolTable); // throws on non-existent variable
+        int fileKey = fileId.evaluate(symbolTable, state.getHeap()); // throws on non-existent variable
         FileData fileData = fileTable.get(fileKey);
         if (fileData == null)   // handle non-existent file
             throw new InterpreterException(String.format("closeFile: non-existent file (fd = %d)", fileKey));

@@ -16,9 +16,9 @@ public class ArithmeticExpression extends Expression {
     }
 
     @Override
-    public int evaluate(IDictionary<String, Integer> table) throws EvaluationException {
-        int A = a.evaluate(table);
-        int B = b.evaluate(table);
+    public int evaluate(IDictionary<String, Integer> table, IDictionary<Integer, Integer> hash) throws EvaluationException {
+        int A = a.evaluate(table, hash);
+        int B = b.evaluate(table, hash);
 
         switch (operand) {
             case '+':

@@ -5,6 +5,7 @@ import com.inter.exceptions.ExitSignal;
 import com.inter.exceptions.InterpreterException;
 import com.inter.model.expressions.ArithmeticExpression;
 import com.inter.model.expressions.ConstantExpression;
+import com.inter.model.expressions.ReadHeapExpression;
 import com.inter.model.expressions.VariableExpression;
 import com.inter.model.statements.*;
 
@@ -131,11 +132,43 @@ public class LoadExampleCommand extends Command {
                         )
                 );
             case 4:
+                /* v = 10;
+                 * new(v, 20);
+                 * new(a, 22);
+                 * print(v); */
                 return new CompoundStatement(
                         new AssignmentStatement("v", new ConstantExpression(10)),
                         new CompoundStatement(new HeapAllocStatement("v", new ConstantExpression(20)),
                                 new CompoundStatement(new HeapAllocStatement("a", new ConstantExpression(22)),
                                         new PrintStatement(new VariableExpression("v"))
+                                )
+                        )
+                );
+            case 5:
+                /* v=10;
+                 * new(v,20);new(a,22);
+                 * print(100+rH(v));
+                 * print(100+rH(a)) */
+                return new CompoundStatement(
+                        new AssignmentStatement("v", new ConstantExpression(10)),
+                        new CompoundStatement(
+                                new HeapAllocStatement("v", new ConstantExpression(20)),
+                                new CompoundStatement(
+                                        new HeapAllocStatement("a", new ConstantExpression(22)),
+                                        new CompoundStatement(
+                                                new PrintStatement(
+                                                        new ArithmeticExpression('+',
+                                                                new ConstantExpression(100),
+                                                                new ReadHeapExpression("v")
+                                                        )
+                                                ),
+                                                new PrintStatement(
+                                                        new ArithmeticExpression('+',
+                                                                new ConstantExpression(100),
+                                                                new ReadHeapExpression("a")
+                                                        )
+                                                )
+                                        )
                                 )
                         )
                 );

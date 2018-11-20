@@ -17,7 +17,7 @@ public class AssignmentStatement extends Statement {
     @Override
     public ProgramState execute(ProgramState state) throws InterpreterException {
         IDictionary<String, Integer> symbolTable = state.getSymbolTable();
-        symbolTable.put(key, e.evaluate(state.getSymbolTable()));
+        symbolTable.put(key, e.evaluate(state.getSymbolTable(), state.getHeap()));
         return state;
     }
 

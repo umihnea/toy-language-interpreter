@@ -11,7 +11,7 @@ public class ConstantExpression extends Expression {
     }
 
     @Override
-    public int evaluate(IDictionary<String, Integer> table) throws EvaluationException {
+    public int evaluate(IDictionary<String, Integer> table, IDictionary<Integer, Integer> hash) throws EvaluationException {
         return k;
     }
 
