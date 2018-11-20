@@ -130,6 +130,15 @@ public class LoadExampleCommand extends Command {
                                 )
                         )
                 );
+            case 4:
+                return new CompoundStatement(
+                        new AssignmentStatement("v", new ConstantExpression(10)),
+                        new CompoundStatement(new HeapAllocStatement("v", new ConstantExpression(20)),
+                                new CompoundStatement(new HeapAllocStatement("a", new ConstantExpression(22)),
+                                        new PrintStatement(new VariableExpression("v"))
+                                )
+                        )
+                );
             default:
                 return null;
         }

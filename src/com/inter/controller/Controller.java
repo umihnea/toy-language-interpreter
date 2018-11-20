@@ -27,11 +27,12 @@ public class Controller {
         Stack<Statement> stack = new Stack<>();
         Dictionary<String, Integer> symbolTable = new Dictionary<>();
         Dictionary<Integer, FileData> fileTable = new Dictionary<>();
+        Dictionary<Integer, Integer> heap = new Dictionary<>();
         List<String> output = new List<>();
 
         stack.push(s);
 
-        ProgramState initial = new ProgramState(stack, symbolTable, output, fileTable);
+        ProgramState initial = new ProgramState(stack, symbolTable, output, fileTable, heap);
         this.repository.setCurrentState(initial);
     }
 
