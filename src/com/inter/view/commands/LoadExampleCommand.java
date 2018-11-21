@@ -234,6 +234,31 @@ public class LoadExampleCommand extends Command {
                                 )
                         )
                 );
+            case 8:
+                /* v = 6;
+                 * WHILE (v-4) (
+                 *    PRINT(v);
+                 *    v = (v - 1);
+                 * );
+                 * PRINT(v);
+                 */
+                return new CompoundStatement(new AssignmentStatement("v", new ConstantExpression(6)),
+                        new CompoundStatement(new WhileStatement(
+                                new ArithmeticExpression('-',
+                                        new VariableExpression("v"),
+                                        new ConstantExpression(4)
+                                ),
+                                new CompoundStatement(new PrintStatement(new VariableExpression("v")),
+                                        new AssignmentStatement("v",
+                                                new ArithmeticExpression('-',
+                                                        new VariableExpression("v"),
+                                                        new ConstantExpression(1)
+                                                ))
+                                )
+                        ),
+                                new PrintStatement(new VariableExpression("v"))
+                        )
+                );
             default:
                 return null;
         }
