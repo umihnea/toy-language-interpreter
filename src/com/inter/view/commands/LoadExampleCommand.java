@@ -133,9 +133,9 @@ public class LoadExampleCommand extends Command {
                 );
             case 4:
                 /* v = 10;
-                 * new(v, 20);
-                 * new(a, 22);
-                 * print(v); */
+                 * NEW(v, 20);
+                 * NEW(a, 22);
+                 * PRINT(v); */
                 return new CompoundStatement(
                         new AssignmentStatement("v", new ConstantExpression(10)),
                         new CompoundStatement(new HeapAllocStatement("v", new ConstantExpression(20)),
@@ -145,10 +145,11 @@ public class LoadExampleCommand extends Command {
                         )
                 );
             case 5:
-                /* v=10;
-                 * new(v,20);new(a,22);
-                 * print(100+rH(v));
-                 * print(100+rH(a)) */
+                /* v = 10;
+                 * NEW(v, 20);
+                 * NEW(a, 22);
+                 * PRINT(100 + READ_HEAP(v));
+                 * PRINT(100 + READ_HEAP(a)) */
                 return new CompoundStatement(
                         new AssignmentStatement("v", new ConstantExpression(10)),
                         new CompoundStatement(
@@ -175,7 +176,7 @@ public class LoadExampleCommand extends Command {
             case 6:
                 /* v = 10;
                  * NEW(v,20); NEW(a,22);
-                 * WRITE_HEAP(a,30);
+                 * WRITE_HEAP(a, 100-70);
                  * PRINT(a);            // 2
                  * PRINT(READ_HEAP(a)); // 30
                  */
