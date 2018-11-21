@@ -5,41 +5,41 @@ import com.inter.utils.adt.IDictionary;
 
 public class ArithmeticExpression extends Expression {
 
-    private Expression a;
-    private Expression b;
+    private Expression lhs;
+    private Expression rhs;
     private char operand;
 
-    public ArithmeticExpression(char operand, Expression a, Expression b) {
+    public ArithmeticExpression(char operand, Expression lhs, Expression rhs) {
         this.operand = operand;
-        this.a = a;
-        this.b = b;
+        this.lhs = lhs;
+        this.rhs = rhs;
     }
 
     @Override
-    public int evaluate(IDictionary<String, Integer> table, IDictionary<Integer, Integer> hash) throws EvaluationException {
-        int A = a.evaluate(table, hash);
-        int B = b.evaluate(table, hash);
+    public int evaluate(IDictionary<String, Integer> table, IDictionary<Integer, Integer> heap) throws EvaluationException {
+        int a = lhs.evaluate(table, heap);
+        int b = rhs.evaluate(table, heap);
 
         switch (operand) {
             case '+':
-                return A + B;
+                return a + b;
             case '-':
-                return A - B;
+                return a - b;
             case '*':
-                return A * B;
+                return a * b;
             case '/':
-                if (B == 0) throw new EvaluationException("Division by 0.");
-                return A / B;
+                if (b == 0) throw new EvaluationException(String.format("%s: division by 0", this));
+                return a / b;
             case '%':
-                if (B == 0) throw new EvaluationException("Division by 0.");
-                return A % B;
+                if (b == 0) throw new EvaluationException(String.format("%s: division by 0", this));
+                return a % b;
             default:
-                throw new EvaluationException(String.format("Symbol %c not recognized.", operand));
+                throw new EvaluationException(String.format("%s: unknown operand \"%c\"", this, operand));
         }
     }
 
     @Override
     public String toString() {
-        return "(" + a.toString() + this.operand + b.toString() + ")";
+        return String.format("(%s %c %s)", lhs, operand, rhs);
     }
 }
