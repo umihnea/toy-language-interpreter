@@ -5,6 +5,7 @@ import com.inter.exceptions.CollectionException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class Dictionary<K, V> implements IDictionary<K, V> {
     private Map<K, V> map;
@@ -19,11 +20,8 @@ public class Dictionary<K, V> implements IDictionary<K, V> {
     }
 
     @Override
-    public V get(K key) throws CollectionException {
-        V value = map.get(key);
-        if (value == null)
-            throw new CollectionException(String.format("Trying to get undefined key \"%s\".", key));
-        return value;
+    public V get(K key) {
+        return map.get(key);
     }
 
     @Override
@@ -42,6 +40,11 @@ public class Dictionary<K, V> implements IDictionary<K, V> {
     @Override
     public Collection<V> values() {
         return map.values();
+    }
+
+    @Override
+    public Set<Map.Entry<K, V>> entrySet() {
+        return map.entrySet();
     }
 
     @Override
