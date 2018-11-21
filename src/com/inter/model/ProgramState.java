@@ -43,6 +43,10 @@ public class ProgramState {
         return heap;
     }
 
+    public void setHeap(IDictionary<Integer, Integer> newHeap) {
+        this.heap = newHeap;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

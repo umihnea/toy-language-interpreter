@@ -5,10 +5,10 @@ import com.inter.model.ProgramState;
 import com.inter.model.files.FileData;
 import com.inter.model.statements.Statement;
 import com.inter.repository.IRepository;
-import com.inter.utils.adt.Dictionary;
-import com.inter.utils.adt.IStack;
-import com.inter.utils.adt.List;
-import com.inter.utils.adt.Stack;
+import com.inter.utils.DictionaryCollector;
+import com.inter.utils.adt.*;
+
+import java.util.Collection;
 
 
 public class Controller {
@@ -55,6 +55,13 @@ public class Controller {
 
         Statement currentStatement = stack.pop();
         this.repository.log(state);
+
+        /* Call to garbage collector */
+//        IDictionary<Integer, Integer> collectedHeap = garbageCollect(state.getSymbolTable().values(), state.getHeap());
+//        state.setHeap(collectedHeap);
+        state.setHeap(garbageCollect(state.getSymbolTable().values(), state.getHeap()));
+        System.out.println("dbg>" + state.getHeap().toString());
+
         return currentStatement.execute(state);
     }
 
@@ -64,4 +71,19 @@ public class Controller {
         return state;
     }
 
+    private IDictionary<Integer, Integer> garbageCollect(Collection<Integer> symbolTableValues, IDictionary<Integer, Integer> heapTable) {
+        /*
+        garbageCollect (conservativeGarbageCollector) removes heap entries which are no longer linked from symbol table
+
+        Input
+            symbolTableValues - the collection of all symbol table values
+            heapTable - a reference to the heap table
+        Output
+            the modified heap table
+        */
+        return heapTable.entrySet()
+                .stream()
+                .filter(e -> symbolTableValues.contains(e.getKey()))
+                .collect(new DictionaryCollector());
+    }
 }
