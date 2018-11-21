@@ -39,6 +39,10 @@ public class ProgramState {
         return fileTable;
     }
 
+    public void setFileTable(IDictionary<Integer, FileData> updatedFileTable) {
+        this.fileTable = updatedFileTable;
+    }
+
     public IDictionary<Integer, Integer> getHeap() {
         return heap;
     }

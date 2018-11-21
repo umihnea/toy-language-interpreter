@@ -56,11 +56,8 @@ public class Controller {
         Statement currentStatement = stack.pop();
         this.repository.log(state);
 
-        /* Call to garbage collector */
-//        IDictionary<Integer, Integer> collectedHeap = garbageCollect(state.getSymbolTable().values(), state.getHeap());
-//        state.setHeap(collectedHeap);
-        state.setHeap(garbageCollect(state.getSymbolTable().values(), state.getHeap()));
-        System.out.println("dbg>" + state.getHeap().toString());
+        state.setHeap(garbageCollect(state.getSymbolTable().values(), state.getHeap())); /* Call to garbage collector */
+        state.setFileTable(manageOpenFiles(state.getSymbolTable().values(), state.getFileTable())); /* Call to open file manager */
 
         return currentStatement.execute(state);
     }
@@ -84,6 +81,30 @@ public class Controller {
         return heapTable.entrySet()
                 .stream()
                 .filter(e -> symbolTableValues.contains(e.getKey()))
-                .collect(new DictionaryCollector());
+                .collect(new DictionaryCollector<>());
+    }
+
+    private IDictionary<Integer, FileData> manageOpenFiles(Collection<Integer> symbolTableValues, IDictionary<Integer, FileData> fileTable) {
+        /*
+        manageOpenFiles - closes any open file which is not linked to from the symbol table
+
+        Example
+        ST: a=1, b=0, c=3
+        FT: (1, a.txt), (2, b.txt)
+        Obs. (2, b.txt) doesn't have any entry in ST "linking" to it, so we will close the file and remove it from FT
+
+        Input
+            symbolTableValues - the collection of all symbol table values
+            fileTable - a reference to the open files table
+        Output
+            the modified file table
+        */
+        fileTable.entrySet().stream() // Close all files which do not have links in the symbol table
+                .filter(e -> !symbolTableValues.contains(e.getKey()))
+                .forEach(e -> e.getValue().close());
+
+        return fileTable.entrySet().stream() // Return the list of all files, keeping only those with correspondences in the symbol table
+                .filter(e -> symbolTableValues.contains(e.getKey()))
+                .collect(new DictionaryCollector<>());
     }
 }
