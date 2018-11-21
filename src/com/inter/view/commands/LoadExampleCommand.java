@@ -172,6 +172,34 @@ public class LoadExampleCommand extends Command {
                                 )
                         )
                 );
+            case 6:
+                /* v = 10;
+                 * NEW(v,20); NEW(a,22);
+                 * WRITE_HEAP(a,30);
+                 * PRINT(a);            // 2
+                 * PRINT(READ_HEAP(a)); // 30
+                 */
+                return new CompoundStatement(
+                        new AssignmentStatement("v", new ConstantExpression(10)),
+                        new CompoundStatement(
+                                new HeapAllocStatement("v", new ConstantExpression(20)),
+                                new CompoundStatement(
+                                        new HeapAllocStatement("a", new ConstantExpression(22)),
+                                        new CompoundStatement(
+                                                new HeapWriteStatement("a",
+                                                        new ArithmeticExpression('-',
+                                                                new ConstantExpression(100),
+                                                                new ConstantExpression(70)
+                                                        )
+                                                ),
+                                                new CompoundStatement(
+                                                        new PrintStatement(new VariableExpression("a")),
+                                                        new PrintStatement(new ReadHeapExpression("a"))
+                                                )
+                                        )
+                                )
+                        )
+                );
             default:
                 return null;
         }
