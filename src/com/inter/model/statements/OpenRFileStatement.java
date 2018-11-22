@@ -28,7 +28,7 @@ public class OpenRFileStatement extends Statement {
 
         for (FileData entry : fileTable.values()) { // filenames in the FileTable must be distinct
             if (entry.getFilename().equals(this.filename))
-                throw new InterpreterException(String.format("openRFile: File \"%s\" already opened.", filename));
+                throw new InterpreterException(String.format("%s: File \"%s\" already opened.", this, filename));
         }
 
         try {
@@ -37,7 +37,7 @@ public class OpenRFileStatement extends Statement {
             fileTable.put(tableKey, fileData);
             symbolTable.put(this.key, tableKey);
         } catch (FileNotFoundException e) {
-            throw new InterpreterException(String.format("openRFile: File \"%s\" not found.", filename));
+            throw new InterpreterException(String.format("%s: File \"%s\" not found.", this, filename));
         }
 
         return state;

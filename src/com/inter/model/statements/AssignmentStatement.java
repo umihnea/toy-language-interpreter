@@ -23,6 +23,6 @@ public class AssignmentStatement extends Statement {
 
     @Override
     public String toString() {
-        return key + "=" + e.toString();
+        return String.format("%s=%s", key, e);
     }
 }
