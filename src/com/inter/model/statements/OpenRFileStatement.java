@@ -13,6 +13,7 @@ public class OpenRFileStatement extends Statement {
 
     private String key;  // key identifies a new entry in the symbol table for the file descriptor
     private String filename;
+    private static int index;
 
     public OpenRFileStatement(String key, String filename) {
         this.filename = filename;
@@ -24,7 +25,8 @@ public class OpenRFileStatement extends Statement {
         IDictionary<Integer, FileData> fileTable = state.getFileTable();
         IDictionary<String, Integer> symbolTable = state.getSymbolTable();
 
-        int tableKey = fileTable.size() + 1;
+        int tableKey = index + 1;
+        index++;
 
         for (FileData entry : fileTable.values()) { // filenames in the FileTable must be distinct
             if (entry.getFilename().equals(this.filename))

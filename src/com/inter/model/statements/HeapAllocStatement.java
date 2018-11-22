@@ -9,6 +9,7 @@ import com.inter.utils.adt.IDictionary;
 public class HeapAllocStatement extends Statement {
     private String key;
     private Expression expression;
+    private static int index;
 
     public HeapAllocStatement(String key, Expression expr) {
         this.key = key;
@@ -18,9 +19,9 @@ public class HeapAllocStatement extends Statement {
     @Override
     public ProgramState execute(ProgramState state) throws InterpreterException {
         IDictionary<Integer, Integer> heap = state.getHeap();
-        int address = heap.size() + 1;
+        int address = index + 1;
+        index++;
         heap.put(address, this.expression.evaluate(state.getSymbolTable(), state.getHeap()));
-
         return new AssignmentStatement(this.key, new ConstantExpression(address)).execute(state);
     }
 
