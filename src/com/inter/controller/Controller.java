@@ -6,7 +6,10 @@ import com.inter.model.files.FileData;
 import com.inter.model.statements.Statement;
 import com.inter.repository.IRepository;
 import com.inter.utils.DictionaryCollector;
-import com.inter.utils.adt.*;
+import com.inter.utils.adt.Dictionary;
+import com.inter.utils.adt.IDictionary;
+import com.inter.utils.adt.List;
+import com.inter.utils.adt.Stack;
 
 import java.util.Collection;
 
@@ -63,8 +66,16 @@ public class Controller {
     }
 
     public ProgramState runToCompletion(ProgramState state) throws InterpreterException {
-        while (!state.getStack().isEmpty())
-            state = this.stepOnce(state);
+        this.repository.logState(state);
+
+        while (!state.getStack().isEmpty()) {
+            state = state.stepOnce();
+
+            state.setHeap(garbageCollect(state.getSymbolTable().values(), state.getHeap())); /* Call to garbage collector */
+            state.setFileTable(manageOpenFiles(state.getSymbolTable().values(), state.getFileTable())); /* Call to open file manager */
+            this.repository.logState(state);
+        }
+
         return state;
     }
 
