@@ -1,5 +1,6 @@
 package com.inter.model;
 
+import com.inter.exceptions.InterpreterException;
 import com.inter.model.files.FileData;
 import com.inter.model.statements.Statement;
 import com.inter.utils.adt.IDictionary;
@@ -14,6 +15,8 @@ public class ProgramState {
     private IDictionary<Integer, FileData> fileTable;
     private IDictionary<Integer, Integer> heap;
 
+    private static int uid = -1;
+
     public ProgramState(IStack<Statement> stack, IDictionary<String, Integer> symbolTable, IList<String> out,
                         IDictionary<Integer, FileData> fileTable, IDictionary<Integer, Integer> heap) {
         this.stack = stack;
@@ -21,6 +24,7 @@ public class ProgramState {
         this.out = out;
         this.fileTable = fileTable;
         this.heap = heap;
+        uid++;
     }
 
     public IStack<Statement> getStack() {
@@ -51,16 +55,35 @@ public class ProgramState {
         this.heap = newHeap;
     }
 
+    public boolean isNotCompleted() {
+        return !this.stack.isEmpty();
+    }
+
+    public boolean isCompleted() {
+        return this.stack.isEmpty();
+    }
+
+    public ProgramState stepOnce() throws InterpreterException {
+        IStack<Statement> stack = getStack();
+        if (stack.isEmpty())
+            throw new InterpreterException("Stack is empty.");
+
+        Statement currentStatement = stack.pop();
+
+//        setHeap(garbageCollect(state.getSymbolTable().values(), state.getHeap())); /* Call to garbage collector */
+//        setFileTable(manageOpenFiles(state.getSymbolTable().values(), state.getFileTable())); /* Call to open file manager */
+//        this.repository.logState(state);
+
+        return currentStatement.execute(this);
+    }
+
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        String hashCode = Integer.toString(System.identityHashCode(this));
-        sb.append(String.format("\tstk: %s\n", stack))
-                .append(String.format("\tsym-t: %s\n", symbolTable))
-                .append(String.format("\tfile-t: %s\n", fileTable))
-                .append(String.format("\theap: %s\n", heap))
-                .append(String.format("\tout: %s\n", out));
-
-        return String.format("PS@%s:\n{\n%s}\n", hashCode, sb.toString());
+        String sb = String.format("\tstk: %s\n", stack) +
+                String.format("\tsym-t: %s\n", symbolTable) +
+                String.format("\tfile-t: %s\n", fileTable) +
+                String.format("\theap: %s\n", heap) +
+                String.format("\tout: %s\n", out);
+        return String.format("Program#%s:\n{\n%s}\n", Integer.toString(uid), sb);
     }
 }
