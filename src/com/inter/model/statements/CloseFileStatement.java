@@ -25,7 +25,8 @@ public class CloseFileStatement extends Statement {
             throw new InterpreterException(String.format("closeFile: non-existent file (fd = %d)", fileKey));
         fileData.close();
         fileTable.remove(fileKey);
-        return state;
+
+        return null;
     }
 
     @Override

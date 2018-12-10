@@ -26,7 +26,7 @@ public class IfStatement extends Statement {
         if (value != 0) stack.push(thenBranch);
         else stack.push(elseBranch);
 
-        return state;
+        return null;
     }
 
     @Override

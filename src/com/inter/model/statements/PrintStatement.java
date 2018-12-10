@@ -20,7 +20,7 @@ public class PrintStatement extends Statement {
         int value = e.evaluate(state.getSymbolTable(), state.getHeap());
         out.append(Integer.toString(value));
 
-        return state;
+        return null;
     }
 
     @Override

@@ -51,20 +51,6 @@ public class Controller {
         this.repository.setCurrentState(newState);
     }
 
-    public ProgramState stepOnce(ProgramState state) throws InterpreterException {
-        IStack<Statement> stack = state.getStack();
-        if (stack.isEmpty())
-            throw new InterpreterException("Stack is empty.");
-
-        Statement currentStatement = stack.pop();
-
-        state.setHeap(garbageCollect(state.getSymbolTable().values(), state.getHeap())); /* Call to garbage collector */
-        state.setFileTable(manageOpenFiles(state.getSymbolTable().values(), state.getFileTable())); /* Call to open file manager */
-        this.repository.log(state);
-
-        return currentStatement.execute(state);
-    }
-
     public ProgramState runToCompletion(ProgramState state) throws InterpreterException {
         this.repository.logState(state);
 

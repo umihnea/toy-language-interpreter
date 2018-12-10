@@ -24,7 +24,7 @@ public class WhileStatement extends Statement {
         state.getStack().push(this);
         state.getStack().push(block);
 
-        return state;
+        return null;
     }
 
     @Override

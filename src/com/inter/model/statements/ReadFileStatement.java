@@ -35,7 +35,7 @@ public class ReadFileStatement extends Statement {
         // Update the file (so we don't read twice)
         fileTable.put(fileKey, fileData);
 
-        return state;
+        return null;
     }
 
     @Override

@@ -25,7 +25,7 @@ public class HeapWriteStatement extends Statement {
 
         state.getHeap().put(heap_address, expr.evaluate(state.getSymbolTable(), state.getHeap()));
 
-        return state;
+        return null;
     }
 
     @Override

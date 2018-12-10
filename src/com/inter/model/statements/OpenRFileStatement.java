@@ -42,7 +42,7 @@ public class OpenRFileStatement extends Statement {
             throw new InterpreterException(String.format("%s: File \"%s\" not found.", this, filename));
         }
 
-        return state;
+        return null;
     }
 
     @Override
