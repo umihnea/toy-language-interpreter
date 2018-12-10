@@ -54,10 +54,10 @@ public class Controller {
             throw new InterpreterException("Stack is empty.");
 
         Statement currentStatement = stack.pop();
-        this.repository.log(state);
 
         state.setHeap(garbageCollect(state.getSymbolTable().values(), state.getHeap())); /* Call to garbage collector */
         state.setFileTable(manageOpenFiles(state.getSymbolTable().values(), state.getFileTable())); /* Call to open file manager */
+        this.repository.log(state);
 
         return currentStatement.execute(state);
     }

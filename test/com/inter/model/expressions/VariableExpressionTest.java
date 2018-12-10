@@ -1,14 +1,14 @@
-package com.inter.model.statements;
+package com.inter.model.expressions;
 
 import com.inter.controller.Controller;
 import com.inter.exceptions.InterpreterException;
-import com.inter.model.expressions.ConstantExpression;
+import com.inter.model.statements.AssignmentStatement;
 import com.inter.repository.Repository;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class AssignmentStatementTest {
+public class VariableExpressionTest {
     private Controller ctrl;
 
     @Before
@@ -18,15 +18,19 @@ public class AssignmentStatementTest {
     }
 
     @Test
-    public void testExecute() throws InterpreterException {
+    public void evaluate() throws InterpreterException {
         this.ctrl.setProgram(new AssignmentStatement("a", new ConstantExpression(10)));
+
         this.ctrl.stepOnce(this.ctrl.getCurrentProgramState());
-        Assert.assertEquals(10, Integer.toUnsignedLong(this.ctrl.getCurrentProgramState().getSymbolTable().get("a")));
-        Assert.assertNull(this.ctrl.getCurrentProgramState().getSymbolTable().get("b"));
+
+        Assert.assertEquals(10, new VariableExpression("a").evaluate(
+                this.ctrl.getCurrentProgramState().getSymbolTable(),
+                this.ctrl.getCurrentProgramState().getHeap()
+        ));
     }
 
     @Test
     public void testToString() {
-        Assert.assertEquals("a=10", new AssignmentStatement("a", new ConstantExpression(10)).toString());
+        Assert.assertEquals("b", new VariableExpression("b").toString());
     }
 }

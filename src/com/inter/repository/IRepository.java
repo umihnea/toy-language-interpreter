@@ -2,10 +2,12 @@ package com.inter.repository;
 
 import com.inter.model.ProgramState;
 
+import java.util.List;
+
 public interface IRepository {
-    ProgramState getCurrentState();
+    List<ProgramState> getProgramList();
 
-    void setCurrentState(ProgramState p);
+    void setProgramList(List<ProgramState> l);
 
-    void log(ProgramState p);
+    void logState(ProgramState p);
 }

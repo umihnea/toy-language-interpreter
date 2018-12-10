@@ -5,38 +5,44 @@ import com.inter.model.ProgramState;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-/*
- * Single-state repository.
- */
 
 public class Repository implements IRepository {
 
-    private ProgramState programState;
+    private List<ProgramState> stateList;
     private FileWriter writer;
 
     public Repository() {
-        this.programState = null;
+        this.stateList = new ArrayList<>();
+        initializeLogFile();
+    }
 
+    private void initializeLogFile() {
         try {
-            this.writer = new FileWriter("log.txt", true);
+            writer = new FileWriter("log.txt", true);
         } catch (IOException e) {
             throw new RepositoryException(String.format("From repo: %s", e.getMessage()));
         }
     }
 
     @Override
-    public ProgramState getCurrentState() {
-        return programState;
+    public List<ProgramState> getProgramList() {
+        return this.stateList;
     }
 
     @Override
-    public void setCurrentState(ProgramState p) {
-        this.programState = p;
+    public void setProgramList(List<ProgramState> lst) {
+        this.stateList = lst;
     }
 
     @Override
-    public void log(ProgramState p) {
+    public void logState(ProgramState p) {
+        /*
+        Input: ProgramState p
+        Logs the contents of given ProgramState p to the log file
+         */
         try {
             this.writer.write(String.valueOf(p));
             this.writer.flush();
