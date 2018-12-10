@@ -14,6 +14,18 @@ public class Dictionary<K, V> implements IDictionary<K, V> {
         this.map = new HashMap<>();
     }
 
+    public Dictionary(IDictionary<K, V> original) {
+        /*
+            Copy constructor (deep copy)
+         */
+        this.map = new HashMap<>();
+        for (Map.Entry<K, V> entry : original.entrySet()) {
+            K key = entry.getKey();
+            V value = entry.getValue();
+            this.map.put(key, value);
+        }
+    }
+
     @Override
     public void put(K key, V e) {
         map.put(key, e);
