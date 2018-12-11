@@ -31,6 +31,8 @@ public class ConsoleView {
 
             try {
                 command.execute();
+            } catch (InterruptedException ine) {
+                System.err.println(ine.getMessage());
             } catch (ExitSignal es) {
                 break;
             } catch (InterpreterException ie) {

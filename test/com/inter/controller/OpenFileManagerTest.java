@@ -6,7 +6,6 @@ import com.inter.model.expressions.ConstantExpression;
 import com.inter.model.files.FileData;
 import com.inter.model.statements.PrintStatement;
 import com.inter.model.statements.Statement;
-import com.inter.repository.Repository;
 import com.inter.utils.adt.Dictionary;
 import com.inter.utils.adt.List;
 import com.inter.utils.adt.Stack;
@@ -43,13 +42,13 @@ public class OpenFileManagerTest {
 
         s.getStack().push(new PrintStatement(new ConstantExpression(10)));
 
-        Repository repo = new Repository();
-        repo.setCurrentState(s);
-
-        Controller ctrl = new Controller(repo);
-
-        System.out.println(s.getFileTable()); // (1, "a.txt"), (2, "b.txt"), (3, "c.txt")
-        s = ctrl.stepOnce(s);
-        System.out.println(s.getFileTable()); // (1, "a.txt"), (3, "c.txt")
+//        Repository repo = new Repository();
+//        repo.setCurrentState(s);
+//
+//        Controller ctrl = new Controller(repo);
+//
+//        System.out.println(s.getFileTable()); // (1, "a.txt"), (2, "b.txt"), (3, "c.txt")
+//        s = ctrl.stepOnce(s);
+//        System.out.println(s.getFileTable()); // (1, "a.txt"), (3, "c.txt")
     }
 }
