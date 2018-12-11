@@ -18,10 +18,11 @@ public class Controller {
 
     private IRepository repository;
     private Statement program;
+    private ExecutorService executor;
 
     public Controller(IRepository r) {
         this.repository = r;
-        this.program = null;
+        this.program = null;    // TODO: decide if we keep this field
     }
 
     public void setProgram(Statement s) {
@@ -36,7 +37,9 @@ public class Controller {
         stack.push(s);
 
         ProgramState initial = new ProgramState(stack, symbolTable, output, fileTable, heap);
-        this.repository.setCurrentState(initial);
+        ArrayList<ProgramState> initialList = new ArrayList<>();
+        initialList.add(initial);
+        this.repository.setProgramList(initialList);
     }
 
     public boolean hasProgram() {
@@ -63,6 +66,47 @@ public class Controller {
         }
 
         return state;
+    }
+
+    private ArrayList<ProgramState> removeCompleted(ArrayList<ProgramState> states) {
+        return (ArrayList<ProgramState>) states.stream()
+                .filter(ProgramState::isNotCompleted)
+                .collect(Collectors.toList());
+    }
+
+    private void stepOnceForList(ArrayList<ProgramState> states) throws InterruptedException {
+        /* Log each state before step */
+        states.forEach(s -> repository.logState(s));
+
+        /* Prepare the list of callables */
+        ArrayList<Callable<ProgramState>> callableList = (ArrayList<Callable<ProgramState>>) states.stream()
+                .map(
+                        (ProgramState s) -> (Callable<ProgramState>) (() -> {
+                            return s.stepOnce();    // TODO: change to method reference
+                        })
+                )
+                .collect(Collectors.toList());
+
+        /* Produce and add new states */
+        ArrayList<ProgramState> newStates = (ArrayList<ProgramState>) executor.invokeAll(callableList).stream()
+                .map(future -> {
+                    try {
+                        return future.get();
+                    } catch (Exception e) {
+                        System.out.printf("stepOnceForList(): %s", e.getMessage());
+                    }
+                    return null;
+                })
+                .filter(s -> s != null)
+                .collect(Collectors.toList());
+
+        states.addAll(newStates);
+
+        /* Log updated states */
+        states.forEach(s -> repository.logState(s));
+
+        /* Save to repository */
+        repository.setProgramList(states);
     }
 
     private IDictionary<Integer, Integer> garbageCollect(Collection<Integer> symbolTableValues, IDictionary<Integer, Integer> heapTable) {
