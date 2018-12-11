@@ -17,17 +17,13 @@ import java.util.Collection;
 public class Controller {
 
     private IRepository repository;
-    private Statement program;
     private ExecutorService executor;
 
     public Controller(IRepository r) {
         this.repository = r;
-        this.program = null;    // TODO: decide if we keep this field
     }
 
     public void setProgram(Statement s) {
-        this.program = s;
-
         Stack<Statement> stack = new Stack<>();
         Dictionary<String, Integer> symbolTable = new Dictionary<>();
         Dictionary<Integer, FileData> fileTable = new Dictionary<>();
@@ -43,30 +39,22 @@ public class Controller {
     }
 
     public boolean hasProgram() {
-        return (this.program != null);
+        return (!this.repository.getProgramList().isEmpty());
     }
 
-    public ProgramState getCurrentProgramState() {
-        return this.repository.getCurrentState();
-    }
-
-    public void setCurrentProgramState(ProgramState newState) {
-        this.repository.setCurrentState(newState);
-    }
-
-    public ProgramState runToCompletion(ProgramState state) throws InterpreterException {
-        this.repository.logState(state);
-
-        while (!state.getStack().isEmpty()) {
-            state = state.stepOnce();
-
-            state.setHeap(garbageCollect(state.getSymbolTable().values(), state.getHeap())); /* Call to garbage collector */
-            state.setFileTable(manageOpenFiles(state.getSymbolTable().values(), state.getFileTable())); /* Call to open file manager */
-            this.repository.logState(state);
-        }
-
-        return state;
-    }
+//    public ProgramState runToCompletion(ProgramState state) throws InterpreterException {
+//        this.repository.logState(state);
+//
+//        while (!state.getStack().isEmpty()) {
+//            state = state.stepOnce();
+//
+//            state.setHeap(garbageCollect(state.getSymbolTable().values(), state.getHeap())); /* Call to garbage collector */
+//            state.setFileTable(manageOpenFiles(state.getSymbolTable().values(), state.getFileTable())); /* Call to open file manager */
+//            this.repository.logState(state);
+//        }
+//
+//        return state;
+//    }
 
     private ArrayList<ProgramState> removeCompleted(ArrayList<ProgramState> states) {
         return (ArrayList<ProgramState>) states.stream()
@@ -74,21 +62,28 @@ public class Controller {
                 .collect(Collectors.toList());
     }
 
+    public void stepOnce() throws InterruptedException {
+        stepOnceForList((ArrayList<ProgramState>) repository.getProgramList());
+    }
+
     private void stepOnceForList(ArrayList<ProgramState> states) throws InterruptedException {
         /* Log each state before step */
         states.forEach(s -> repository.logState(s));
 
         /* Prepare the list of callables */
-        ArrayList<Callable<ProgramState>> callableList = (ArrayList<Callable<ProgramState>>) states.stream()
+        ArrayList<Callable<ProgramState>> callableList = (ArrayList<Callable<ProgramState>>) states
+                .stream()
                 .map(
                         (ProgramState s) -> (Callable<ProgramState>) (() -> {
-                            return s.stepOnce();    // TODO: change to method reference
+                            return s.stepOnce();
                         })
                 )
                 .collect(Collectors.toList());
 
         /* Produce and add new states */
-        ArrayList<ProgramState> newStates = (ArrayList<ProgramState>) executor.invokeAll(callableList).stream()
+        ArrayList<ProgramState> newStates = (ArrayList<ProgramState>) executor
+                .invokeAll(callableList)
+                .stream()
                 .map(future -> {
                     try {
                         return future.get();
@@ -108,6 +103,28 @@ public class Controller {
         /* Save to repository */
         repository.setProgramList(states);
     }
+
+    public void runToCompletion() throws InterpreterException {
+        /* stepAll() */
+
+        executor = Executors.newFixedThreadPool(2);
+        ArrayList<ProgramState> stateList = removeCompleted((ArrayList<ProgramState>) repository.getProgramList());
+        while (!stateList.isEmpty()) {
+
+            /* TODO: Call to garbage collector and open file manager */
+
+            try {
+                stepOnceForList(stateList);
+            } catch (InterruptedException e) {
+                throw new InterpreterException(String.format("runToCompletion() fails with: %s", e.getMessage()));
+            }
+            stateList = removeCompleted((ArrayList<ProgramState>) repository.getProgramList());
+        }
+
+        executor.shutdownNow();
+        repository.setProgramList(stateList);
+    }
+
 
     private IDictionary<Integer, Integer> garbageCollect(Collection<Integer> symbolTableValues, IDictionary<Integer, Integer> heapTable) {
         /*

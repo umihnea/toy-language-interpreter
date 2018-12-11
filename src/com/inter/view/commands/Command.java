@@ -11,7 +11,7 @@ abstract public class Command {
         this.description = description;
     }
 
-    abstract public void execute() throws InterpreterException;
+    abstract public void execute() throws InterpreterException, InterruptedException;
 
     public String getKey() {
         return key;
