@@ -259,6 +259,43 @@ public class LoadExampleCommand extends Command {
                                 new PrintStatement(new VariableExpression("v"))
                         )
                 );
+            case 9:
+                /*
+                 * v = 10;
+                 * new(a, 22);
+                 * fork(
+                 *   wH(a, 30);
+                 *   v = 32;
+                 *   print(v);
+                 *   print(rH(a));
+                 * );
+                 * print(v);
+                 * print(rH(a));
+                 */
+                return new CompoundStatement(
+                        new AssignmentStatement("v", new ConstantExpression(10)),
+                        new CompoundStatement(
+                                new HeapAllocStatement("a", new ConstantExpression(22)),
+                                new CompoundStatement(
+                                        new ForkStatement(
+                                                new CompoundStatement(
+                                                        new HeapWriteStatement("a", new ConstantExpression(30)),
+                                                        new CompoundStatement(
+                                                                new AssignmentStatement("v", new ConstantExpression(32)),
+                                                                new CompoundStatement(
+                                                                        new PrintStatement(new VariableExpression("v")),
+                                                                        new PrintStatement(new ReadHeapExpression("a"))
+                                                                )
+                                                        )
+                                                )
+                                        ),
+                                        new CompoundStatement(
+                                                new PrintStatement(new VariableExpression("v")),
+                                                new PrintStatement(new ReadHeapExpression("a"))
+                                        )
+                                )
+                        )
+                );
             default:
                 return null;
         }
