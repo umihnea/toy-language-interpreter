@@ -70,10 +70,6 @@ public class ProgramState {
 
         Statement currentStatement = stack.pop();
 
-//        setHeap(garbageCollect(state.getSymbolTable().values(), state.getHeap())); /* Call to garbage collector */
-//        setFileTable(manageOpenFiles(state.getSymbolTable().values(), state.getFileTable())); /* Call to open file manager */
-//        this.repository.logState(state);
-
         return currentStatement.execute(this);
     }
 

@@ -68,6 +68,10 @@ public class Controller {
     }
 
     public void stepOnce() throws InterruptedException {
+        /*
+        This is a wrapper for the stepOnceForList method.
+        This is called from StepOnceCommand in View to step only once.
+         */
         stepOnceForList((ArrayList<ProgramState>) repository.getProgramList());
     }
 
@@ -75,17 +79,24 @@ public class Controller {
         /* Log each state before step */
         states.forEach(s -> repository.logState(s));
 
-        /* Prepare the list of callables */
+        /* callableList is the list of tasks run by the executor, each is associated with a program */
         ArrayList<Callable<ProgramState>> callableList = (ArrayList<Callable<ProgramState>>) states
                 .stream()
                 .map(
+                        /* On call, the task will execute stepOnce() on the state it was assigned
+                         * and will return null OR a new program (if it executes a ForkStatement). */
                         (ProgramState s) -> (Callable<ProgramState>) (() -> {
                             return s.stepOnce();
                         })
                 )
                 .collect(Collectors.toList());
+        /* NB! No function is actually called and states are not yet updated at this point */
 
-        /* Produce and add new states */
+        /* Execute Callables
+         * 1. executor invokes all Callables => a list of Future<ProgramState>
+         * 2. each future is mapped to (future.get()) -- NB! future.get() is blocking
+         * 3. non-nulls are collected => newStates now contains all new programs created by forking
+         */
         ArrayList<ProgramState> newStates = (ArrayList<ProgramState>) executor
                 .invokeAll(callableList)
                 .stream()
@@ -100,6 +111,7 @@ public class Controller {
                 .filter(s -> s != null)
                 .collect(Collectors.toList());
 
+        /* Append the new program states */
         states.addAll(newStates);
 
         /* Log updated states */
@@ -111,7 +123,6 @@ public class Controller {
 
     public void runToCompletion() throws InterpreterException {
         /* stepAll() */
-
         executor = Executors.newFixedThreadPool(2);
         ArrayList<ProgramState> stateList = removeCompleted((ArrayList<ProgramState>) repository.getProgramList());
         while (!stateList.isEmpty()) {
