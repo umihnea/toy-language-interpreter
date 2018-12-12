@@ -15,7 +15,8 @@ public class ProgramState {
     private IDictionary<Integer, FileData> fileTable;
     private IDictionary<Integer, Integer> heap;
 
-    private static int uid = -1;
+    private static int uid_seed = 0;
+    private int uid;
 
     public ProgramState(IStack<Statement> stack, IDictionary<String, Integer> symbolTable, IList<String> out,
                         IDictionary<Integer, FileData> fileTable, IDictionary<Integer, Integer> heap) {
@@ -24,7 +25,8 @@ public class ProgramState {
         this.out = out;
         this.fileTable = fileTable;
         this.heap = heap;
-        uid++;
+        this.uid = uid_seed;
+        uid_seed++;
     }
 
     public IStack<Statement> getStack() {

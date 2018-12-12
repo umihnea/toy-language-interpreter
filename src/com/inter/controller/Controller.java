@@ -64,7 +64,7 @@ public class Controller {
 
     private void stepOnceForList(ArrayList<ProgramState> states) throws InterruptedException {
         /* Log each state before step */
-        states.forEach(s -> repository.logState(s));
+//        states.forEach(s -> repository.logState(s));
 
         /* callableList is the list of tasks run by the executor, each is associated with a program */
         ArrayList<Callable<ProgramState>> callableList = (ArrayList<Callable<ProgramState>>) states
