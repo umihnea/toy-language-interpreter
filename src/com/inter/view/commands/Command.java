@@ -2,6 +2,8 @@ package com.inter.view.commands;
 
 import com.inter.exceptions.InterpreterException;
 
+import java.util.concurrent.ExecutionException;
+
 abstract public class Command {
     private String key;
     private String description;
@@ -11,7 +13,7 @@ abstract public class Command {
         this.description = description;
     }
 
-    abstract public void execute() throws InterpreterException, InterruptedException;
+    abstract public void execute() throws InterpreterException, InterruptedException, ExecutionException;
 
     public String getKey() {
         return key;

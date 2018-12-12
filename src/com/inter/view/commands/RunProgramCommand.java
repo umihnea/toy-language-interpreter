@@ -13,12 +13,10 @@ public class RunProgramCommand extends Command {
     }
 
     @Override
-    public void execute() throws InterpreterException {
+    public void execute() throws InterpreterException, InterruptedException {
 
         if (!controller.hasProgram())
             throw new InterpreterException("No program loaded.");
-//        else if (state.getStack().isEmpty())
-//            throw new InterpreterException("Program already done.");
 
         controller.runToCompletion();
         System.out.println("Program finished.");

@@ -1,6 +1,5 @@
 package com.inter.controller;
 
-import com.inter.exceptions.InterpreterException;
 import com.inter.model.ProgramState;
 import com.inter.model.files.FileData;
 import com.inter.model.statements.Statement;
@@ -14,6 +13,7 @@ import com.inter.utils.adt.Stack;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
@@ -47,15 +47,18 @@ public class Controller {
         return (!this.repository.getProgramList().isEmpty());
     }
 
+    public IRepository getRepository() {
+        return this.repository;
+    }
+
     private ArrayList<ProgramState> removeCompleted(ArrayList<ProgramState> states) {
         return (ArrayList<ProgramState>) states.stream()
                 .filter(ProgramState::isNotCompleted)
                 .collect(Collectors.toList());
     }
 
-    public void stepOnce() throws InterruptedException {
+    public void stepOnce() throws InterruptedException, ExecutionException {
         /*
-        TODO: actually you cannot stepOnce if the executor is not set up
         This is a wrapper for the stepOnceForList method.
         This is called from StepOnceCommand in View to step only once.
          */
@@ -63,8 +66,13 @@ public class Controller {
     }
 
     private void stepOnceForList(ArrayList<ProgramState> states) throws InterruptedException {
+        /* NON-LAB REQUIREMENT: Instantiate a new executor PER STEP
+         * TODO: maybe find a smarter way to do this?
+         */
+        executor = Executors.newFixedThreadPool(2);
+
         /* Log each state before step */
-//        states.forEach(s -> repository.logState(s));
+        states.forEach(s -> repository.logState(s));
 
         /* callableList is the list of tasks run by the executor, each is associated with a program */
         ArrayList<Callable<ProgramState>> callableList = (ArrayList<Callable<ProgramState>>) states
@@ -90,8 +98,8 @@ public class Controller {
                 .map(future -> {
                     try {
                         return future.get();
-                    } catch (Exception e) {
-                        System.out.printf("stepOnceForList(): %s", e.getMessage());
+                    } catch (InterruptedException | ExecutionException e) {
+                        e.printStackTrace();
                     }
                     return null;
                 })
@@ -104,29 +112,26 @@ public class Controller {
         /* Log updated states */
         states.forEach(s -> repository.logState(s));
 
+        /* NON-LAB REQUIRED: Remove completed */
+        states = removeCompleted(states);
+
+        /* NON-LAB REQUIRED: Call to garbage collector and open file manager */
+        states.forEach(s -> garbageCollect(s.getSymbolTable().values(), s.getHeap()));
+        states.forEach(s -> manageOpenFiles(s.getSymbolTable().values(), s.getFileTable()));
+
         /* Save to repository */
         repository.setProgramList(states);
-    }
-
-    public void runToCompletion() throws InterpreterException {
-        /* stepAll() */
-        executor = Executors.newFixedThreadPool(2);
-        ArrayList<ProgramState> stateList = removeCompleted((ArrayList<ProgramState>) repository.getProgramList());
-        while (!stateList.isEmpty()) {
-
-            /* Call to garbage collector and open file manager */
-            stateList.forEach(s -> garbageCollect(s.getSymbolTable().values(), s.getHeap()));
-            stateList.forEach(s -> manageOpenFiles(s.getSymbolTable().values(), s.getFileTable()));
-
-            try {
-                stepOnceForList(stateList);
-            } catch (InterruptedException e) {
-                throw new InterpreterException(String.format("runToCompletion() fails with: %s", e.getMessage()));
-            }
-            stateList = removeCompleted((ArrayList<ProgramState>) repository.getProgramList());
-        }
 
         executor.shutdownNow();
+    }
+
+    public void runToCompletion() throws InterruptedException {
+        /* stepAll() */
+        ArrayList<ProgramState> stateList = removeCompleted((ArrayList<ProgramState>) repository.getProgramList());
+        while (!stateList.isEmpty()) {
+                stepOnceForList(stateList);
+        }
+
         repository.setProgramList(stateList);
     }
 

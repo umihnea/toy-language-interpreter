@@ -50,4 +50,11 @@ public class Repository implements IRepository {
             throw new RepositoryException(String.format("From repo.log(): %s", e.getMessage()));
         }
     }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        this.stateList.forEach(s -> stringBuilder.append(s).append("\n"));
+        return stringBuilder.toString();
+    }
 }

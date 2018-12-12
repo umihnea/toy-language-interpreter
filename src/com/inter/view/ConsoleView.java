@@ -6,6 +6,7 @@ import com.inter.view.commands.Command;
 
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.concurrent.ExecutionException;
 
 public class ConsoleView {
     private Scanner in;
@@ -31,12 +32,12 @@ public class ConsoleView {
 
             try {
                 command.execute();
-            } catch (InterruptedException ine) {
-                System.err.println(ine.getMessage());
             } catch (ExitSignal es) {
                 break;
-            } catch (InterpreterException ie) {
-                System.err.println(ie.getMessage());
+            } catch (InterpreterException e) {
+                System.err.println(e.getMessage());
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
             }
         }
 
