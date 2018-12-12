@@ -115,9 +115,8 @@ public class Controller {
         while (!stateList.isEmpty()) {
 
             /* Call to garbage collector and open file manager */
-            ProgramState main = stateList.get(0);
-            stateList.forEach(s -> garbageCollect(main.getSymbolTable().values(), s.getHeap()));
-            stateList.forEach(s -> manageOpenFiles(main.getSymbolTable().values(), s.getFileTable()));
+            stateList.forEach(s -> garbageCollect(s.getSymbolTable().values(), s.getHeap()));
+            stateList.forEach(s -> manageOpenFiles(s.getSymbolTable().values(), s.getFileTable()));
 
             try {
                 stepOnceForList(stateList);
