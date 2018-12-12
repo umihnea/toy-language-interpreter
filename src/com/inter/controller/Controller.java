@@ -132,15 +132,13 @@ public class Controller {
 
 
     private IDictionary<Integer, Integer> garbageCollect(Collection<Integer> symbolTableValues, IDictionary<Integer, Integer> heapTable) {
-        /*
-        garbageCollect (conservativeGarbageCollector) removes heap entries which are no longer linked from symbol table
-
-        Input
-            symbolTableValues - the collection of all symbol table values
-            heapTable - a reference to the heap table
-        Output
-            the modified heap table
-        */
+        //garbageCollect (conservativeGarbageCollector) removes heap entries which are no longer linked from symbol table
+        //
+        //Input
+        //    symbolTableValues - the collection of all symbol table values
+        //    heapTable - a reference to the heap table
+        //Output
+        //    the modified heap table
         return heapTable.entrySet()
                 .stream()
                 .filter(e -> symbolTableValues.contains(e.getKey()))
@@ -148,20 +146,17 @@ public class Controller {
     }
 
     private IDictionary<Integer, FileData> manageOpenFiles(Collection<Integer> symbolTableValues, IDictionary<Integer, FileData> fileTable) {
-        /*
-        manageOpenFiles - closes any open file which is not linked to from the symbol table
-
-        Example
-        ST: a=1, b=0, c=3
-        FT: (1, a.txt), (2, b.txt)
-        Obs. (2, b.txt) doesn't have any entry in ST "linking" to it, so we will close the file and remove it from FT
-
-        Input
-            symbolTableValues - the collection of all symbol table values
-            fileTable - a reference to the open files table
-        Output
-            the modified file table
-        */
+        //manageOpenFiles - closes any open file which is not linked to from the symbol table
+        //Example
+        //  ST: a=1, b=0, c=3
+        //  FT: (1, a.txt), (2, b.txt)
+        //Obs. (2, b.txt) doesn't have any entry in ST "linking" to it, so we will close the file and remove it from FT
+        //
+        //Input
+        //  symbolTableValues - the collection of all symbol table values
+        //  fileTable - a reference to the open files table
+        //Output
+        //  the modified file table
         fileTable.entrySet().stream() // Close all files which do not have links in the symbol table
                 .filter(e -> !symbolTableValues.contains(e.getKey()))
                 .forEach(e -> e.getValue().close());
