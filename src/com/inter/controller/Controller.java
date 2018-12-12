@@ -47,20 +47,6 @@ public class Controller {
         return (!this.repository.getProgramList().isEmpty());
     }
 
-//    public ProgramState runToCompletion(ProgramState state) throws InterpreterException {
-//        this.repository.logState(state);
-//
-//        while (!state.getStack().isEmpty()) {
-//            state = state.stepOnce();
-//
-//            state.setHeap(garbageCollect(state.getSymbolTable().values(), state.getHeap())); /* Call to garbage collector */
-//            state.setFileTable(manageOpenFiles(state.getSymbolTable().values(), state.getFileTable())); /* Call to open file manager */
-//            this.repository.logState(state);
-//        }
-//
-//        return state;
-//    }
-
     private ArrayList<ProgramState> removeCompleted(ArrayList<ProgramState> states) {
         return (ArrayList<ProgramState>) states.stream()
                 .filter(ProgramState::isNotCompleted)
@@ -69,6 +55,7 @@ public class Controller {
 
     public void stepOnce() throws InterruptedException {
         /*
+        TODO: actually you cannot stepOnce if the executor is not set up
         This is a wrapper for the stepOnceForList method.
         This is called from StepOnceCommand in View to step only once.
          */
@@ -127,7 +114,10 @@ public class Controller {
         ArrayList<ProgramState> stateList = removeCompleted((ArrayList<ProgramState>) repository.getProgramList());
         while (!stateList.isEmpty()) {
 
-            /* TODO: Call to garbage collector and open file manager */
+            /* Call to garbage collector and open file manager */
+            ProgramState main = stateList.get(0);
+            stateList.forEach(s -> garbageCollect(main.getSymbolTable().values(), s.getHeap()));
+            stateList.forEach(s -> manageOpenFiles(main.getSymbolTable().values(), s.getFileTable()));
 
             try {
                 stepOnceForList(stateList);
