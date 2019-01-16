@@ -14,7 +14,6 @@ public class RunProgramCommand extends Command {
 
     @Override
     public void execute() throws InterpreterException, InterruptedException {
-
         if (!controller.hasProgram())
             throw new InterpreterException("No program loaded.");
 

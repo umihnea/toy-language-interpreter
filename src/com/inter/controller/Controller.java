@@ -106,6 +106,7 @@ public class Controller {
                 .filter(s -> s != null)
                 .collect(Collectors.toList());
 
+
         /* Append the new program states */
         states.addAll(newStates);
 
@@ -128,8 +129,10 @@ public class Controller {
     public void runToCompletion() throws InterruptedException {
         /* stepAll() */
         ArrayList<ProgramState> stateList = removeCompleted((ArrayList<ProgramState>) repository.getProgramList());
+
         while (!stateList.isEmpty()) {
-                stepOnceForList(stateList);
+            stepOnceForList(stateList);
+            System.out.println(stateList);
         }
 
         repository.setProgramList(stateList);

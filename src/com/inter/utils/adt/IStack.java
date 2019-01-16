@@ -1,5 +1,7 @@
 package com.inter.utils.adt;
 
+import java.util.LinkedList;
+
 public interface IStack<T> {
     T pop();
 
@@ -8,4 +10,6 @@ public interface IStack<T> {
     void push(T e);
 
     boolean isEmpty();
+
+    LinkedList<T> getContainer();
 }

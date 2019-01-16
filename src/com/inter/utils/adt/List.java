@@ -38,6 +38,10 @@ public class List<T> implements IList<T> {
         return collection.size();
     }
 
+    public java.util.List<T> getContainer() {
+        return collection;
+    }
+
     @Override
     public String toString() {
         int index = 0;

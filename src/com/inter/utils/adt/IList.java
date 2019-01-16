@@ -8,4 +8,6 @@ public interface IList<T> {
     T removeAt(int index);
 
     int size();
+
+    java.util.List<T> getContainer();
 }

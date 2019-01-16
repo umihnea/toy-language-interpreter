@@ -35,6 +35,11 @@ public class Stack<T> implements IStack<T> {
     }
 
     @Override
+    public LinkedList<T> getContainer() {
+        return list;
+    }
+
+    @Override
     public String toString() {
         int index = 0;
         StringBuilder line = new StringBuilder();
