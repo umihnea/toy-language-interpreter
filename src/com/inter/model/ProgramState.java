@@ -1,5 +1,6 @@
 package com.inter.model;
 
+import com.inter.exceptions.CollectionException;
 import com.inter.exceptions.InterpreterException;
 import com.inter.model.files.FileData;
 import com.inter.model.statements.Statement;
@@ -67,12 +68,16 @@ public class ProgramState {
 
     public ProgramState stepOnce() throws InterpreterException {
         IStack<Statement> stack = getStack();
-        if (stack.isEmpty())
-            throw new InterpreterException("Stack is empty.");
+//        if (stack.isEmpty())
+//            throw new InterpreterException("Stack is empty.");
+        try {
+            Statement currentStatement = stack.pop();
+            return currentStatement.execute(this);
+        } catch (CollectionException ce) {
+            return null;
+        }
 
-        Statement currentStatement = stack.pop();
-
-        return currentStatement.execute(this);
+//        return currentStatement.execute(this);
     }
 
     @Override

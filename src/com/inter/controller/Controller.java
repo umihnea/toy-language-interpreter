@@ -132,7 +132,7 @@ public class Controller {
 
         while (!stateList.isEmpty()) {
             stepOnceForList(stateList);
-            System.out.println(stateList);
+            stateList = removeCompleted(stateList);
         }
 
         repository.setProgramList(stateList);
