@@ -129,6 +129,7 @@ public class Mediator {
 
         try {
             controller.runToCompletion();
+            updateControls();
         } catch (InterruptedException e) {
             showErrorDialog(e.getMessage());
             // e.printStackTrace();
