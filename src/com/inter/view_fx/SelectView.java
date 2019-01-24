@@ -21,7 +21,7 @@ public class SelectView {
     public ListView<String> lstPrograms;
     public Button btnSelect;
 
-    public static final ObservableList<String> programs = FXCollections.observableArrayList();
+    private static final ObservableList<String> programs = FXCollections.observableArrayList();
 
     @FXML
     public void initialize() {
@@ -32,6 +32,7 @@ public class SelectView {
     }
 
     private void initData() {
+        programs.clear();
         for (int i = 1; i <= 9; i++)
             programs.add(String.valueOf(i));
     }
