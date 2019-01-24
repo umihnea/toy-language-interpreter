@@ -124,11 +124,14 @@ public class Mediator {
     }
 
     public void runToCompletion() {
-        if (!controller.hasProgram())
+        if (!controller.hasProgram()) {
             showErrorDialog("No program loaded.");
+            return;
+        }
 
         try {
             controller.runToCompletion();
+            updateControls();
         } catch (InterruptedException e) {
             showErrorDialog(e.getMessage());
             // e.printStackTrace();
