@@ -4,10 +4,10 @@ import com.inter.exceptions.InterpreterException;
 import com.inter.model.ProgramState;
 import com.inter.model.statements.Statement;
 
-public class LatchAwaitStatement extends Statement {
+public class CountDownStatement extends Statement {
     private String key;
 
-    public LatchAwaitStatement(String key) {
+    public CountDownStatement(String key) {
         this.key = key;
     }
 
@@ -22,13 +22,15 @@ public class LatchAwaitStatement extends Statement {
                 throw new InterpreterException(String.format("%s: undefined variable %s", this, key));
 
             if (!state.getLatchTable().containsKey(latchId))
-                throw new InterpreterException(String.format("%s: latch %s not alloc'd", this, latchId));
+                return null;
 
             latchValue = state.getLatchTable().get(latchId);
-        }
 
-        if (latchValue == 0)
-            return null;
+            if (latchValue > 0) {
+                state.getLatchTable().put(latchId, latchValue - 1);
+                state.getBuffer().append(String.format("Program#%s counted down Latch#%d", state.getId(), latchId));
+            }
+        }
 
         state.getStack().push(this);
 
@@ -37,6 +39,6 @@ public class LatchAwaitStatement extends Statement {
 
     @Override
     public String toString() {
-        return String.format("AWAIT(%s)", this.key);
+        return String.format("COUNT-DOWN(%s)", this.key);
     }
 }

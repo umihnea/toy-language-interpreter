@@ -34,6 +34,10 @@ public class ProgramState {
         uid_seed++;
     }
 
+    public int getId() {
+        return uid;
+    }
+
     public ILatchTable getLatchTable() {
         return latchTable;
     }
