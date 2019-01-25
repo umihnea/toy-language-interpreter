@@ -28,6 +28,6 @@ public class NewLatchStatement extends Statement {
 
     @Override
     public String toString() {
-        return String.format("writeHeap(%s, %s)", this.key, this.expression);
+        return String.format("NEW-LATCH(%s, %s)", this.key, this.expression);
     }
 }
