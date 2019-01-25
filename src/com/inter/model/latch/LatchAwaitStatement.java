@@ -15,7 +15,7 @@ public class LatchAwaitStatement extends Statement {
     public ProgramState execute(ProgramState state) throws InterpreterException {
         int latchValue;
 
-//        synchronized (state.getLatchTable()) {
+        synchronized (state.getLatchTable()) {
             Integer latchId = state.getSymbolTable().get(key);
 
         if (latchId == null) {
@@ -29,7 +29,7 @@ public class LatchAwaitStatement extends Statement {
         }
 
             latchValue = state.getLatchTable().get(latchId);
-//        }
+        }
 
         if (latchValue == 0)
             return null;
