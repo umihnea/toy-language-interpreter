@@ -16,6 +16,11 @@ public class LatchTable implements ILatchTable {
     }
 
     @Override
+    public boolean containsKey(int key) {
+        return synchronizedHashMap.containsKey(key);
+    }
+
+    @Override
     public Collection<Integer> values() {
         return synchronizedHashMap.values();
     }
