@@ -4,6 +4,9 @@ import com.inter.model.expressions.ArithmeticExpression;
 import com.inter.model.expressions.ConstantExpression;
 import com.inter.model.expressions.ReadHeapExpression;
 import com.inter.model.expressions.VariableExpression;
+import com.inter.model.latch.CountDownStatement;
+import com.inter.model.latch.LatchAwaitStatement;
+import com.inter.model.latch.NewLatchStatement;
 import com.inter.model.statements.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -33,7 +36,7 @@ public class SelectView {
 
     private void initData() {
         programs.clear();
-        for (int i = 1; i <= 9; i++)
+        for (int i = 1; i <= 10; i++)
             programs.add(String.valueOf(i));
     }
 
@@ -298,6 +301,30 @@ public class SelectView {
                                 )
                         )
                 );
+            case 10:
+                return new CompoundStatement(new HeapAllocStatement("v1", new ConstantExpression(2)),
+                        new CompoundStatement(new HeapAllocStatement("v2", new ConstantExpression(3)),
+                                new CompoundStatement(new HeapAllocStatement("v3", new ConstantExpression(4)),
+                                        new CompoundStatement(new NewLatchStatement("cnt", new ReadHeapExpression("v2")),
+                                                new CompoundStatement(
+                                                        new ForkStatement(
+                                                                new CompoundStatement(new HeapWriteStatement("v1", new ArithmeticExpression('*', new ReadHeapExpression("v1"), new ConstantExpression(10))),
+                                                                        new CompoundStatement(new PrintStatement(new ReadHeapExpression("v1")), new CountDownStatement("cnt")))
+                                                        ),
+                                                        new CompoundStatement(
+                                                                new ForkStatement(
+                                                                        new CompoundStatement(new HeapWriteStatement("v2", new ArithmeticExpression('*', new ReadHeapExpression("v2"), new ConstantExpression(10))),
+                                                                                new CompoundStatement(new PrintStatement(new ReadHeapExpression("v2")), new CountDownStatement("cnt")))
+                                                                ),
+                                                                new CompoundStatement(
+                                                                        new ForkStatement(
+                                                                                new CompoundStatement(new HeapWriteStatement("v3", new ArithmeticExpression('*', new ReadHeapExpression("v3"), new ConstantExpression(10))),
+                                                                                        new CompoundStatement(new PrintStatement(new ReadHeapExpression("v3")), new CountDownStatement("cnt")))
+                                                                        ),
+                                                                        new CompoundStatement(new LatchAwaitStatement("cnt"),
+                                                                                new CompoundStatement(new PrintStatement(new ConstantExpression(100)),
+                                                                                        new CompoundStatement(new CountDownStatement("cnt"), new PrintStatement(new ConstantExpression(100))
+                                                                                        ))))))))));
             default:
                 return null;
         }

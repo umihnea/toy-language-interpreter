@@ -19,10 +19,14 @@ public class NewLatchStatement extends Statement {
 
     @Override
     public ProgramState execute(ProgramState state) throws InterpreterException {
-        ILatchTable latchTable = state.getLatchTable();
-        int latchId = latchIndex + 1;
-        latchIndex++;
-        latchTable.put(latchId, this.expression.evaluate(state.getSymbolTable(), state.getHeap()));
+        int latchId = -1;
+
+        synchronized (state.getLatchTable()) {
+            ILatchTable latchTable = state.getLatchTable();
+            latchId = latchIndex + 1;
+            latchIndex++;
+            latchTable.put(latchId, this.expression.evaluate(state.getSymbolTable(), state.getHeap()));
+        }
         return new AssignmentStatement(this.key, new ConstantExpression(latchId)).execute(state);
     }
 

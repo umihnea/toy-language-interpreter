@@ -32,8 +32,6 @@ public class CountDownStatement extends Statement {
             }
         }
 
-        state.getStack().push(this);
-
         return null;
     }
 

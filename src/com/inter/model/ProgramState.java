@@ -102,7 +102,8 @@ public class ProgramState {
                 String.format("\tsym-t: %s\n", symbolTable) +
                 String.format("\tfile-t: %s\n", fileTable) +
                 String.format("\theap: %s\n", heap) +
-                String.format("\tout: %s\n", out);
+                String.format("\tout: %s\n", out) +
+                String.format("\tlatches: %s\n", latchTable);
         return String.format("Program#%s:\n{\n%s}\n", Integer.toString(uid), sb);
     }
 }
