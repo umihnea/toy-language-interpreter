@@ -37,16 +37,16 @@ public class LatchTable implements ILatchTable {
 
     @Override
     public String toString() {
-        int index = 0;
         StringBuilder line = new StringBuilder();
-        for (Map.Entry<Integer, Integer> entry : synchronizedHashMap.entrySet()) {
-            int key = entry.getKey();
-            int value = entry.getValue();
-
-            line.append(String.format("(%s: %s)", key, value));
-
-            if (index + 1 < synchronizedHashMap.size()) line.append(", ");
-            index++;
+        synchronized (synchronizedHashMap) {
+            int index = 0;
+            for (Map.Entry<Integer, Integer> entry : synchronizedHashMap.entrySet()) {
+                int key = entry.getKey();
+                int value = entry.getValue();
+                line.append(String.format("(%s: %s)", key, value));
+                if (index + 1 < synchronizedHashMap.size()) line.append(", ");
+                index++;
+            }
         }
         return "{" + line.toString() + "}";
     }
