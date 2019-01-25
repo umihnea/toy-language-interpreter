@@ -3,6 +3,7 @@ package com.inter.model;
 import com.inter.exceptions.CollectionException;
 import com.inter.exceptions.InterpreterException;
 import com.inter.model.files.FileData;
+import com.inter.model.latch.ILatchTable;
 import com.inter.model.statements.Statement;
 import com.inter.utils.adt.IDictionary;
 import com.inter.utils.adt.IList;
@@ -16,18 +17,29 @@ public class ProgramState {
     private IDictionary<Integer, FileData> fileTable;
     private IDictionary<Integer, Integer> heap;
 
+    private ILatchTable latchTable;
+
     private static int uid_seed = 0;
     private int uid;
 
     public ProgramState(IStack<Statement> stack, IDictionary<String, Integer> symbolTable, IList<String> out,
-                        IDictionary<Integer, FileData> fileTable, IDictionary<Integer, Integer> heap) {
+                        IDictionary<Integer, FileData> fileTable, IDictionary<Integer, Integer> heap, ILatchTable latchTable) {
         this.stack = stack;
         this.symbolTable = symbolTable;
         this.out = out;
         this.fileTable = fileTable;
         this.heap = heap;
         this.uid = uid_seed;
+        this.latchTable = latchTable;
         uid_seed++;
+    }
+
+    public ILatchTable getLatchTable() {
+        return latchTable;
+    }
+
+    public void setLatchTable(ILatchTable lt) {
+        latchTable = lt;
     }
 
     public IStack<Statement> getStack() {
