@@ -176,4 +176,12 @@ public class Mediator {
         setProgram(selected);
         selectView.getStage().hide();
     }
+
+    public ObservableList<HeapPair> getLatchTable() {
+        ArrayList<HeapPair> pairs = (ArrayList<HeapPair>) currentState.getLatchTable().entrySet().stream()
+                .map(e -> new HeapPair(e.getKey(), e.getValue()))
+                .collect(Collectors.toList());
+
+        return FXCollections.observableArrayList(pairs);
+    }
 }

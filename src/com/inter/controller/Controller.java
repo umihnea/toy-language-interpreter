@@ -2,6 +2,8 @@ package com.inter.controller;
 
 import com.inter.model.ProgramState;
 import com.inter.model.files.FileData;
+import com.inter.model.latch.ILatchTable;
+import com.inter.model.latch.LatchTable;
 import com.inter.model.statements.Statement;
 import com.inter.repository.IRepository;
 import com.inter.utils.DictionaryCollector;
@@ -34,10 +36,11 @@ public class Controller {
         Dictionary<Integer, FileData> fileTable = new Dictionary<>();
         Dictionary<Integer, Integer> heap = new Dictionary<>();
         List<String> output = new List<>();
+        ILatchTable latchTable = new LatchTable();
 
         stack.push(s);
 
-        ProgramState initial = new ProgramState(stack, symbolTable, output, fileTable, heap);
+        ProgramState initial = new ProgramState(stack, symbolTable, output, fileTable, heap, latchTable);
         ArrayList<ProgramState> initialList = new ArrayList<>();
         initialList.add(initial);
         this.repository.setProgramList(initialList);

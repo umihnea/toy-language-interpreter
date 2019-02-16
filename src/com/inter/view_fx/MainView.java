@@ -37,6 +37,10 @@ public class MainView {
     @FXML
     public TableColumn<FilePair, String> colFileValue;
 
+    public TableView<HeapPair> tblLatches;
+    public TableColumn<HeapPair, String> colLatchKey;
+    public TableColumn<HeapPair, String> colLatchValue;
+
     @FXML
     public ListView<ProgramState> lstProgramStates;
     @FXML
@@ -79,6 +83,9 @@ public class MainView {
 
         colFileKey.setCellValueFactory(new PropertyValueFactory<>("key"));
         colFileValue.setCellValueFactory(new PropertyValueFactory<>("value"));
+
+        colLatchKey.setCellValueFactory(new PropertyValueFactory<>("key"));
+        colLatchValue.setCellValueFactory(new PropertyValueFactory<>("value"));
     }
 
     public void updateControls() {
@@ -89,6 +96,7 @@ public class MainView {
         tblSymbols.setItems(mediator.getSymbolTable());
         tblHeap.setItems(mediator.getHeapTable());
         tblFiles.setItems(mediator.getFileTable());
+        tblLatches.setItems(mediator.getLatchTable());
     }
 
     public void changeProgramState() {

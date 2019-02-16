@@ -1,9 +1,6 @@
 package com.inter.view_fx;
 
-import com.inter.model.expressions.ArithmeticExpression;
-import com.inter.model.expressions.ConstantExpression;
-import com.inter.model.expressions.ReadHeapExpression;
-import com.inter.model.expressions.VariableExpression;
+import com.inter.model.expressions.*;
 import com.inter.model.statements.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -33,7 +30,7 @@ public class SelectView {
 
     private void initData() {
         programs.clear();
-        for (int i = 1; i <= 9; i++)
+        for (int i = 1; i <= 10; i++)
             programs.add(String.valueOf(i));
     }
 
@@ -298,6 +295,37 @@ public class SelectView {
                                 )
                         )
                 );
+            case 10:
+                /* v = 0;
+                 * REPEAT (
+                 *    FORK (
+                 *        PRINT(v)
+                 *        v = v - 1
+                 *    )
+                 *    v = v + 1
+                 * ) UNTIL (v == 3)
+                 * x = 1
+                 * y = 2
+                 * z = 3
+                 * w = 4
+                 * PRINT(v * 10)
+                 */
+                return new CompoundStatement(new AssignmentStatement("v", new ConstantExpression(0)),
+                        new CompoundStatement(new RepeatUntilStatement(
+                                new CompoundStatement(
+                                        new ForkStatement(
+                                                new CompoundStatement(
+                                                        new PrintStatement(new VariableExpression("v")),
+                                                        new AssignmentStatement("v", new ArithmeticExpression('-', new VariableExpression("v"), new ConstantExpression(1))))
+                                        ),
+                                        new AssignmentStatement("v", new ArithmeticExpression('+', new VariableExpression("v"), new ConstantExpression(1)))
+                                ),
+                                new BooleanExpression("==", new VariableExpression("v"), new ConstantExpression(3))
+                        ), new CompoundStatement(new AssignmentStatement("x", new ConstantExpression(1)),
+                                new CompoundStatement(new AssignmentStatement("y", new ConstantExpression(2)),
+                                        new CompoundStatement(new AssignmentStatement("z", new ConstantExpression(3)),
+                                                new CompoundStatement(new AssignmentStatement("w", new ConstantExpression(4)),
+                                                        new PrintStatement(new ArithmeticExpression('*', new VariableExpression("v"), new ConstantExpression(10)))))))));
             default:
                 return null;
         }
