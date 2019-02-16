@@ -29,6 +29,6 @@ public class WhileStatement extends Statement {
 
     @Override
     public String toString() {
-        return String.format("while (%s) { %s }", e, block);
+        return String.format("WHILE (%s) { %s }", e, block);
     }
 }

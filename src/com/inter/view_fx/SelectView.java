@@ -320,7 +320,7 @@ public class SelectView {
                                         ),
                                         new AssignmentStatement("v", new ArithmeticExpression('+', new VariableExpression("v"), new ConstantExpression(1)))
                                 ),
-                                new BooleanExpression("==", new VariableExpression("v"), new ConstantExpression(2))
+                                new BooleanExpression("==", new VariableExpression("v"), new ConstantExpression(3))
                         ), new CompoundStatement(new AssignmentStatement("x", new ConstantExpression(1)),
                                 new CompoundStatement(new AssignmentStatement("y", new ConstantExpression(2)),
                                         new CompoundStatement(new AssignmentStatement("z", new ConstantExpression(3)),

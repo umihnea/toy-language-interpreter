@@ -46,6 +46,33 @@ public class BooleanExpression extends Expression {
         return (r) ? 1 : 0;
     }
 
+    public BooleanExpression getInverse() throws EvaluationException {
+        String inverseOperand;
+        switch (operand) {
+            case "==":
+                inverseOperand = "!=";
+                break;
+            case "!=":
+                inverseOperand = "==";
+                break;
+            case "<":
+                inverseOperand = ">=";
+                break;
+            case ">":
+                inverseOperand = "<=";
+                break;
+            case "<=":
+                inverseOperand = ">";
+                break;
+            case ">=":
+                inverseOperand = "<";
+                break;
+            default:
+                throw new EvaluationException(String.format("%s: undefined operand \"%s\"", this, operand));
+        }
+        return new BooleanExpression(inverseOperand, lhs, rhs);
+    }
+
     @Override
     public String toString() {
         return String.format("%s %s %s", lhs, operand, rhs);
