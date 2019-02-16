@@ -1,12 +1,6 @@
 package com.inter.view_fx;
 
-import com.inter.model.expressions.ArithmeticExpression;
-import com.inter.model.expressions.ConstantExpression;
-import com.inter.model.expressions.ReadHeapExpression;
-import com.inter.model.expressions.VariableExpression;
-import com.inter.model.latch.CountDownStatement;
-import com.inter.model.latch.LatchAwaitStatement;
-import com.inter.model.latch.NewLatchStatement;
+import com.inter.model.expressions.*;
 import com.inter.model.statements.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -302,29 +296,36 @@ public class SelectView {
                         )
                 );
             case 10:
-                return new CompoundStatement(new HeapAllocStatement("v1", new ConstantExpression(2)),
-                        new CompoundStatement(new HeapAllocStatement("v2", new ConstantExpression(3)),
-                                new CompoundStatement(new HeapAllocStatement("v3", new ConstantExpression(4)),
-                                        new CompoundStatement(new NewLatchStatement("cnt", new ReadHeapExpression("v2")),
+                /* v = 0;
+                 * REPEAT (
+                 *    FORK (
+                 *        PRINT(v)
+                 *        v = v - 1
+                 *    )
+                 *    v = v + 1
+                 * ) UNTIL (v == 3)
+                 * x = 1
+                 * y = 2
+                 * z = 3
+                 * w = 4
+                 * PRINT(v * 10)
+                 */
+                return new CompoundStatement(new AssignmentStatement("v", new ConstantExpression(0)),
+                        new CompoundStatement(new RepeatUntilStatement(
+                                new CompoundStatement(
+                                        new ForkStatement(
                                                 new CompoundStatement(
-                                                        new ForkStatement(
-                                                                new CompoundStatement(new HeapWriteStatement("v1", new ArithmeticExpression('*', new ReadHeapExpression("v1"), new ConstantExpression(10))),
-                                                                        new CompoundStatement(new PrintStatement(new ReadHeapExpression("v1")), new CountDownStatement("cnt")))
-                                                        ),
-                                                        new CompoundStatement(
-                                                                new ForkStatement(
-                                                                        new CompoundStatement(new HeapWriteStatement("v2", new ArithmeticExpression('*', new ReadHeapExpression("v2"), new ConstantExpression(10))),
-                                                                                new CompoundStatement(new PrintStatement(new ReadHeapExpression("v2")), new CountDownStatement("cnt")))
-                                                                ),
-                                                                new CompoundStatement(
-                                                                        new ForkStatement(
-                                                                                new CompoundStatement(new HeapWriteStatement("v3", new ArithmeticExpression('*', new ReadHeapExpression("v3"), new ConstantExpression(10))),
-                                                                                        new CompoundStatement(new PrintStatement(new ReadHeapExpression("v3")), new CountDownStatement("cnt")))
-                                                                        ),
-                                                                        new CompoundStatement(new LatchAwaitStatement("cnt"),
-                                                                                new CompoundStatement(new PrintStatement(new ConstantExpression(100)),
-                                                                                        new CompoundStatement(new CountDownStatement("cnt"), new PrintStatement(new ConstantExpression(100))
-                                                                                        ))))))))));
+                                                        new PrintStatement(new VariableExpression("v")),
+                                                        new AssignmentStatement("v", new ArithmeticExpression('-', new VariableExpression("v"), new ConstantExpression(1))))
+                                        ),
+                                        new AssignmentStatement("v", new ArithmeticExpression('+', new VariableExpression("v"), new ConstantExpression(1)))
+                                ),
+                                new BooleanExpression("==", new VariableExpression("v"), new ConstantExpression(2))
+                        ), new CompoundStatement(new AssignmentStatement("x", new ConstantExpression(1)),
+                                new CompoundStatement(new AssignmentStatement("y", new ConstantExpression(2)),
+                                        new CompoundStatement(new AssignmentStatement("z", new ConstantExpression(3)),
+                                                new CompoundStatement(new AssignmentStatement("w", new ConstantExpression(4)),
+                                                        new PrintStatement(new ArithmeticExpression('*', new VariableExpression("v"), new ConstantExpression(10)))))))));
             default:
                 return null;
         }

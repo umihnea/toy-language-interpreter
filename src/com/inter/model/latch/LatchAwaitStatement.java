@@ -18,15 +18,15 @@ public class LatchAwaitStatement extends Statement {
         synchronized (state.getLatchTable()) {
             Integer latchId = state.getSymbolTable().get(key);
 
-        if (latchId == null) {
-            System.out.println("miss-in-symtable error at " + latchId);
-            throw new InterpreterException(String.format("%s: undefined variable %s", this, key));
-        }
+            if (latchId == null) {
+                System.out.println("miss-in-symtable error at " + latchId);
+                throw new InterpreterException(String.format("%s: undefined variable %s", this, key));
+            }
 
-        if (!state.getLatchTable().containsKey(latchId)) {
-            System.out.println("no-key error at " + latchId);
-            throw new InterpreterException(String.format("%s: latch %s not alloc'd", this, latchId));
-        }
+            if (!state.getLatchTable().containsKey(latchId)) {
+                System.out.println("no-key error at " + latchId);
+                throw new InterpreterException(String.format("%s: latch %s not alloc'd", this, latchId));
+            }
 
             latchValue = state.getLatchTable().get(latchId);
         }
